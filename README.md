@@ -31,3 +31,6 @@
 - [ ] 게시물 작성자가 약속 요청한 사람 승인/거절
 - [ ] 약속 리뷰 / 평점
 
+---
+### ERD 설계
+<img width="1117" alt="스크린샷 2023-07-13 오후 10 43 19" src="https://github.com/jodonghyeon3/neighborhood-friend/assets/117457834/53298acc-fd60-4555-be6f-005571f0bd8d">
