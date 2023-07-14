@@ -35,5 +35,6 @@
 
 ---
 ### ERD 설계
-<img width="1402" alt="image" src="https://github.com/jodonghyeon3/neighborhood-friend/assets/117457834/9a676324-dfce-4523-af10-bf62b20b6c8d">
+<img width="1388" alt="image" src="https://github.com/jodonghyeon3/neighborhood-friend/assets/117457834/f6a91af5-b0b5-4f91-98e7-f0d487b45e82">
+
 
