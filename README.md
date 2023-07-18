@@ -40,6 +40,7 @@ Spring, Jpa, Mysql, Docker
 
 ---
 ### ERD 설계
-<img width="1388" alt="image" src="https://github.com/jodonghyeon3/neighborhood-friend/assets/117457834/f6a91af5-b0b5-4f91-98e7-f0d487b45e82">
+<img width="1220" alt="image" src="https://github.com/jodonghyeon3/neighborhood-friend/assets/117457834/4dbbe2cc-3356-4b1b-808b-51af5d8fb34b">
+
 
 
