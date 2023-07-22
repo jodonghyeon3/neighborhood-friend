@@ -1,4 +1,4 @@
-package com.jodonghyeon.neighborfriend.domain.Model;
+package com.jodonghyeon.neighborfriend.domain.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

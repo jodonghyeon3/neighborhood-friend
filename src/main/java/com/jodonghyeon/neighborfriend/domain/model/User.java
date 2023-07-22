@@ -1,7 +1,7 @@
-package com.jodonghyeon.neighborfriend.domain.Model;
+package com.jodonghyeon.neighborfriend.domain.model;
 
 import com.jodonghyeon.neighborfriend.domain.SignUpForm;
-import com.jodonghyeon.neighborfriend.domain.Type.Gender;
+import com.jodonghyeon.neighborfriend.domain.type.Gender;
 import lombok.*;
 import org.hibernate.envers.AuditOverride;
 
