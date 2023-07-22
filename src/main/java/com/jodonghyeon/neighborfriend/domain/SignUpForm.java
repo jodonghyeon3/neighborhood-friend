@@ -1,6 +1,6 @@
 package com.jodonghyeon.neighborfriend.domain;
 
-import com.jodonghyeon.neighborfriend.domain.Type.Gender;
+import com.jodonghyeon.neighborfriend.domain.type.Gender;
 import lombok.Getter;
 
 import java.time.LocalDate;
