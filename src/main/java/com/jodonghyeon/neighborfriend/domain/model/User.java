@@ -36,8 +36,6 @@ public class User extends BaseEntity{
 
     @Embedded
     @AttributeOverrides({
-            @AttributeOverride(name = "subdivisionName", column = @Column(name = "home_subdivisonName")),
-            @AttributeOverride(name = "cityName", column = @Column(name = "home_city")),
             @AttributeOverride(name = "lat", column = @Column(name = "home_lat")),
             @AttributeOverride(name = "lon", column = @Column(name = "home_lon"))
     })
@@ -45,8 +43,6 @@ public class User extends BaseEntity{
 
     @Embedded
     @AttributeOverrides({
-            @AttributeOverride(name = "subdivisionName", column = @Column(name = "company_subdivisonName")),
-            @AttributeOverride(name = "cityName", column = @Column(name = "company_city")),
             @AttributeOverride(name = "lat", column = @Column(name = "company_lat")),
             @AttributeOverride(name = "lon", column = @Column(name = "company_lon"))
     })

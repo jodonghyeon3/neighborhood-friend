@@ -1,32 +1,33 @@
 package com.jodonghyeon.neighborfriend.controller;
 
-import com.jodonghyeon.neighborfriend.application.UserApplication;
-import com.jodonghyeon.neighborfriend.domain.SignInForm;
-import com.jodonghyeon.neighborfriend.domain.SignUpForm;
-import com.jodonghyeon.neighborfriend.geoLite2.GeoService;
+import com.jodonghyeon.neighborfriend.config.JwtAuthenticationProvider;
+import com.jodonghyeon.neighborfriend.domain.common.UserVo;
+import com.jodonghyeon.neighborfriend.domain.dto.UserDto;
+import com.jodonghyeon.neighborfriend.domain.model.User;
+import com.jodonghyeon.neighborfriend.exception.CustomException;
+import com.jodonghyeon.neighborfriend.exception.ErrorCode;
+import com.jodonghyeon.neighborfriend.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
-
-import java.net.UnknownHostException;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestHeader;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/user")
 public class UserController {
 
-    private final UserApplication userApplication;
-    private final GeoService geoService;
+    private final JwtAuthenticationProvider provider;
+    private final UserService userService;
+    @GetMapping("/Detail")
+    public ResponseEntity<UserDto> detailUser(@RequestHeader(name = "X-AUTH-TOKEN") String token) {
+        UserVo vo = provider.getUserVo(token);
 
-    @PostMapping("/signup")
-    public ResponseEntity<String> signInUser(@RequestBody SignUpForm form) throws UnknownHostException {
-        return ResponseEntity.ok(userApplication.generalSignUp(form));
+        User u = userService.findByIdAndEmail(vo.getId(), vo.getEmail())
+                .orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_USER));
+
+        return ResponseEntity.ok(UserDto.from(u));
     }
-
-    @PostMapping("/signin")
-    public ResponseEntity<String> signUpUser(@RequestBody SignInForm form) {
-        return ResponseEntity.ok(userApplication.userLoginToken(form));
-    }
-
-
 }

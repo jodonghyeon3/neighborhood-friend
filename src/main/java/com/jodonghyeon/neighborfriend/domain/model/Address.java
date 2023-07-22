@@ -11,8 +11,7 @@ import javax.persistence.Embeddable;
 @AllArgsConstructor
 @NoArgsConstructor
 public class Address {
-    private String subdivisionName;
-    private String cityName;
+
     private Double lat;
     private Double lon;
 
