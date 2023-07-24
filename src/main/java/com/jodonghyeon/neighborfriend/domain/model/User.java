@@ -1,6 +1,6 @@
 package com.jodonghyeon.neighborfriend.domain.model;
 
-import com.jodonghyeon.neighborfriend.domain.SignUpForm;
+import com.jodonghyeon.neighborfriend.domain.form.SignUpForm;
 import com.jodonghyeon.neighborfriend.domain.type.Gender;
 import lombok.*;
 import org.hibernate.envers.AuditOverride;
@@ -17,8 +17,10 @@ import java.util.Locale;
 @AllArgsConstructor
 @AuditOverride(forClass = BaseEntity.class)
 public class User extends BaseEntity{
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "user_id")
     private Long id;
 
     private String email;
@@ -39,7 +41,7 @@ public class User extends BaseEntity{
             @AttributeOverride(name = "lat", column = @Column(name = "home_lat")),
             @AttributeOverride(name = "lon", column = @Column(name = "home_lon"))
     })
-    private Address homdAddress;
+    private Address homeAddress;
 
     @Embedded
     @AttributeOverrides({

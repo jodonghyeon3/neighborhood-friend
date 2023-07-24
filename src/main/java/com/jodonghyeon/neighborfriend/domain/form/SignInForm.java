@@ -1,4 +1,4 @@
-package com.jodonghyeon.neighborfriend.domain;
+package com.jodonghyeon.neighborfriend.domain.form;
 
 import lombok.Getter;
 

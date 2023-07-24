@@ -8,8 +8,6 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
 import java.time.LocalDate;
 
 @Setter
@@ -37,7 +35,7 @@ public class UserDto {
                 .age(form.getAge())
                 .star_rating(form.getStar_rating())
                 .gender(form.getGender())
-                .homeAddress(form.getHomdAddress())
+                .homeAddress(form.getHomeAddress())
                 .companyAddress(form.getCompanyAddress())
                 .build();
     }

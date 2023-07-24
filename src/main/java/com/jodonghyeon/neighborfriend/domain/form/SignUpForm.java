@@ -1,4 +1,4 @@
-package com.jodonghyeon.neighborfriend.domain;
+package com.jodonghyeon.neighborfriend.domain.form;
 
 import com.jodonghyeon.neighborfriend.domain.type.Gender;
 import lombok.Getter;
