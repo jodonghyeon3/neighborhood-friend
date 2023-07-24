@@ -1,9 +1,9 @@
 package com.jodonghyeon.neighborfriend.application;
 
 import com.jodonghyeon.neighborfriend.config.JwtAuthenticationProvider;
-import com.jodonghyeon.neighborfriend.domain.SignInForm;
+import com.jodonghyeon.neighborfriend.domain.form.SignInForm;
 import com.jodonghyeon.neighborfriend.domain.model.User;
-import com.jodonghyeon.neighborfriend.domain.SignUpForm;
+import com.jodonghyeon.neighborfriend.domain.form.SignUpForm;
 import com.jodonghyeon.neighborfriend.exception.CustomException;
 import com.jodonghyeon.neighborfriend.exception.ErrorCode;
 import com.jodonghyeon.neighborfriend.service.SignService;

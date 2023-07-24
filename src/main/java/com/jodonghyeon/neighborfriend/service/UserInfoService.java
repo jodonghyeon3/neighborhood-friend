@@ -13,7 +13,7 @@ import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
-public class UserService {
+public class UserInfoService {
 
     private final GeoService geoService;
     private final UserRepository userRepository;
@@ -34,7 +34,7 @@ public class UserService {
                 .lat(city.getLatitude())
                 .build();
 
-        u.setHomdAddress(address);
+        u.setHomeAddress(address);
         userRepository.save(u);
         return "집주소를 정상적으로 등록하였습니다.";
     }

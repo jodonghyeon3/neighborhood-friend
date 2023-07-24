@@ -1,7 +1,7 @@
 package com.jodonghyeon.neighborfriend.service;
 
 import com.jodonghyeon.neighborfriend.domain.model.User;
-import com.jodonghyeon.neighborfriend.domain.SignUpForm;
+import com.jodonghyeon.neighborfriend.domain.form.SignUpForm;
 import com.jodonghyeon.neighborfriend.domain.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

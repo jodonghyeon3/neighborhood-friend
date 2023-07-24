@@ -1,8 +1,8 @@
 package com.jodonghyeon.neighborfriend.controller;
 
 import com.jodonghyeon.neighborfriend.application.SignApplication;
-import com.jodonghyeon.neighborfriend.domain.SignInForm;
-import com.jodonghyeon.neighborfriend.domain.SignUpForm;
+import com.jodonghyeon.neighborfriend.domain.form.SignInForm;
+import com.jodonghyeon.neighborfriend.domain.form.SignUpForm;
 import com.jodonghyeon.neighborfriend.geoLite2.GeoService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -18,12 +18,12 @@ public class SignController {
     private final GeoService geoService;
 
     @PostMapping("/signup")
-    public ResponseEntity<String> signInUser(@RequestBody SignUpForm form) throws UnknownHostException {
+    public ResponseEntity<String> signUpUser(@RequestBody SignUpForm form) throws UnknownHostException {
         return ResponseEntity.ok(signApplication.generalSignUp(form));
     }
 
     @PostMapping("/signin")
-    public ResponseEntity<String> signUpUser(@RequestBody SignInForm form) {
+    public ResponseEntity<String> signInUser(@RequestBody SignInForm form) {
         return ResponseEntity.ok(signApplication.userLoginToken(form));
     }
 
