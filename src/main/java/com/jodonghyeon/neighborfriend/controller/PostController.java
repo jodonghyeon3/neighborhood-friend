@@ -30,4 +30,5 @@ public class PostController {
         return ResponseEntity.ok(postService.companyPostRegister(form, vo.getEmail()));
     }
 
+
 }

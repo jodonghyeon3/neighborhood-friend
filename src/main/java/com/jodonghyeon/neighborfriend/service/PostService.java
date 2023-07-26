@@ -20,7 +20,6 @@ public class PostService {
     private final UserRepository userRepository;
 
     public String homePostRegister(PostForm form, String email) {
-        // 회원 없을 경우 예외처리
         User user = userRepository.findByEmail(email)
                 .orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_USER));
 

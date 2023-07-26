@@ -1,13 +1,19 @@
 package com.jodonghyeon.neighborfriend.geoLite2;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.maxmind.geoip2.DatabaseReader;
 import com.maxmind.geoip2.exception.GeoIp2Exception;
 import com.maxmind.geoip2.model.CityResponse;
+import org.json.JSONObject;
 import org.springframework.stereotype.Component;
 
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.net.InetAddress;
+import java.net.URL;
+import java.net.URLConnection;
 
 @Component
 public class GeoReader {
@@ -32,4 +38,5 @@ public class GeoReader {
 
         return response;
     }
+
 }
