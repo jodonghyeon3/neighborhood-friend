@@ -8,11 +8,14 @@ import com.jodonghyeon.neighborfriend.geoLite2.GeoService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.net.UnknownHostException;
+import java.util.Arrays;
 import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
+@Transactional
 public class UserInfoService {
 
     private final GeoService geoService;

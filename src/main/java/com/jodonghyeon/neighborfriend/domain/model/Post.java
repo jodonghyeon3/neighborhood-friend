@@ -36,12 +36,14 @@ public class Post extends BaseEntity{
     @JoinColumn(name = "user_id")
     private User user;
 
-    public static Post from(PostForm form) {
+    public static Post from(PostForm form, User userId) {
         return Post.builder()
                 .title(form.getTitle())
                 .detail(form.getDetail())
                 .place(form.getPlace())
                 .time(form.getTime())
+                .user(userId)
                 .build();
     }
+
 }

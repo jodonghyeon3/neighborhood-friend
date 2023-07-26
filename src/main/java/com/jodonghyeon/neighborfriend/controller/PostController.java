@@ -17,16 +17,17 @@ public class PostController {
     private final PostService postService;
 
     @PostMapping("/homeregister")
-    public ResponseEntity<String> homePostRegistration(@RequestHeader(name = "X-AUTH-TOKEN") String token
+    public ResponseEntity<String> homeRegistration(@RequestHeader(name = "X-AUTH-TOKEN") String token
             , @RequestBody PostForm form) {
         UserVo vo = provider.getUserVo(token);
         return ResponseEntity.ok(postService.homePostRegister(form, vo.getEmail()));
     }
 
     @PostMapping("/companyregister")
-    public ResponseEntity<String> companyPostRegistration(@RequestHeader(name = "X-AUTH-TOKEN") String token
+    public ResponseEntity<String> companyRegistration(@RequestHeader(name = "X-AUTH-TOKEN") String token
             , @RequestBody PostForm form) {
         UserVo vo = provider.getUserVo(token);
         return ResponseEntity.ok(postService.companyPostRegister(form, vo.getEmail()));
     }
+
 }
