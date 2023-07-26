@@ -3,6 +3,7 @@ package com.jodonghyeon.neighborfriend.service;
 import com.jodonghyeon.neighborfriend.domain.model.Address;
 import com.jodonghyeon.neighborfriend.domain.model.User;
 import com.jodonghyeon.neighborfriend.domain.repository.UserRepository;
+import com.jodonghyeon.neighborfriend.geoLite2.AddressDto;
 import com.jodonghyeon.neighborfriend.geoLite2.GeoLocationDto;
 import com.jodonghyeon.neighborfriend.geoLite2.GeoService;
 import lombok.RequiredArgsConstructor;
@@ -31,14 +32,8 @@ public class UserInfoService {
                 .filter(user -> user.getEmail().equals(email))
                 .findFirst().get();
 
-        GeoLocationDto city = geoService.findCity();
-        Address address = Address.builder()
-                .lon(city.getLongitude())
-                .lat(city.getLatitude())
-                .build();
-
-        u.setHomeAddress(address);
-        userRepository.save(u);
+        Address city = geoService.findCity();
+        u.setHomeAddress(city);
         return "집주소를 정상적으로 등록하였습니다.";
     }
 
@@ -47,14 +42,8 @@ public class UserInfoService {
                 .filter(user -> user.getEmail().equals(email))
                 .findFirst().get();
 
-        GeoLocationDto city = geoService.findCity();
-        Address address = Address.builder()
-                .lon(city.getLongitude())
-                .lat(city.getLatitude())
-                .build();
-
-        u.setCompanyAddress(address);
-        userRepository.save(u);
+        Address city = geoService.findCity();
+        u.setCompanyAddress(city);
         return "회사 주소를 정상적으로 등록하였습니다.";
     }
 }

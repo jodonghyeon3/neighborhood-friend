@@ -14,6 +14,7 @@ import javax.persistence.Embeddable;
 @NoArgsConstructor
 public class Address {
 
+    private String address;
     private Double lat;
     private Double lon;
 

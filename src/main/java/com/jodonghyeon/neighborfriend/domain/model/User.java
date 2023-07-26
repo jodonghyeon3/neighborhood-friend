@@ -9,6 +9,7 @@ import javax.persistence.*;
 import java.time.LocalDate;
 import java.util.Locale;
 
+
 @Entity
 @Getter
 @Setter
@@ -38,6 +39,7 @@ public class User extends BaseEntity{
 
     @Embedded
     @AttributeOverrides({
+            @AttributeOverride(name = "address", column = @Column(name = "home_address")),
             @AttributeOverride(name = "lat", column = @Column(name = "home_lat")),
             @AttributeOverride(name = "lon", column = @Column(name = "home_lon"))
     })
@@ -45,6 +47,7 @@ public class User extends BaseEntity{
 
     @Embedded
     @AttributeOverrides({
+            @AttributeOverride(name = "address", column = @Column(name = "company_address")),
             @AttributeOverride(name = "lat", column = @Column(name = "company_lat")),
             @AttributeOverride(name = "lon", column = @Column(name = "company_lon"))
     })
