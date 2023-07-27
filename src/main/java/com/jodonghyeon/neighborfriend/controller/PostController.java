@@ -42,7 +42,7 @@ public class PostController {
     @GetMapping("/companylist")
     public ResponseEntity<List<PostDto>> CompanyList(@RequestHeader(name = "X-AUTH-TOKEN") String token) {
         UserVo vo = provider.getUserVo(token);
-        return ResponseEntity.ok(postService.homePostList(vo.getEmail()));
+        return ResponseEntity.ok(postService.companyPostList(vo.getEmail()));
     }
 
 
