@@ -9,6 +9,8 @@ import com.maxmind.geoip2.record.Location;
 import com.maxmind.geoip2.record.Subdivision;
 import lombok.RequiredArgsConstructor;
 import org.json.JSONObject;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Service;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
@@ -24,7 +26,10 @@ import java.nio.charset.Charset;
 
 @Service
 @RequiredArgsConstructor
+@PropertySource("classpath:config.properties")
 public class GeoService {
+    @Value("${secretKey}")
+    private String kakaoKey;
 
     private final GeoReader geoReader;
 
@@ -67,7 +72,7 @@ public class GeoService {
 
     public Address findCity() throws UnknownHostException {
 //        InetAddress ipAddress = getIpAddress();
-        InetAddress ipAddress = InetAddress.getByName("221.160.119.133");
+        InetAddress ipAddress = InetAddress.getByName("221.160.154.121");
 
         CityResponse response = geoReader.city(ipAddress);
 
@@ -81,7 +86,6 @@ public class GeoService {
 
     public Address loadLocation(Double lat1, Double lon1) {
         URL obj;
-        String REST_KEY = "978254b10a6ea670c995fd6729af85fa";
         Double lat = lat1;
         Double lon = lon1;
         String url = "https://dapi.kakao.com/v2/local/geo/coord2address.json?x=" + lon + "&y=" + lat;
@@ -93,7 +97,7 @@ public class GeoService {
 
             HttpURLConnection con = (HttpURLConnection) obj.openConnection();
             con.setRequestMethod("GET");
-            con.setRequestProperty("Authorization", "KakaoAK " + REST_KEY);
+            con.setRequestProperty("Authorization", "KakaoAK " + kakaoKey);
             con.setRequestProperty("content-type", "application/json");
             con.setDoOutput(true);
             con.setUseCaches(false);
@@ -121,7 +125,6 @@ public class GeoService {
                         .lon(lon)
                         .lat(lat)
                         .build();
-//                        (region_3depth_name, lon, lat);
             }
 
         } catch (Exception e) {

@@ -15,7 +15,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 @AuditOverride(forClass = BaseEntity.class)
-public class Post extends BaseEntity{
+public class Post extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "post_id")
@@ -43,6 +43,7 @@ public class Post extends BaseEntity{
                 .place(form.getPlace())
                 .time(form.getTime())
                 .user(userId)
+                .status(PostStatus.RECRUITING)
                 .build();
     }
 

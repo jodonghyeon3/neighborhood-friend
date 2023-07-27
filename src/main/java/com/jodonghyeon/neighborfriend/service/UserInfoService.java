@@ -3,15 +3,12 @@ package com.jodonghyeon.neighborfriend.service;
 import com.jodonghyeon.neighborfriend.domain.model.Address;
 import com.jodonghyeon.neighborfriend.domain.model.User;
 import com.jodonghyeon.neighborfriend.domain.repository.UserRepository;
-import com.jodonghyeon.neighborfriend.geoLite2.AddressDto;
-import com.jodonghyeon.neighborfriend.geoLite2.GeoLocationDto;
 import com.jodonghyeon.neighborfriend.geoLite2.GeoService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.net.UnknownHostException;
-import java.util.Arrays;
 import java.util.Optional;
 
 @Service
