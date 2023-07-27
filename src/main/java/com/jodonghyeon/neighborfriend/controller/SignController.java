@@ -6,7 +6,9 @@ import com.jodonghyeon.neighborfriend.domain.form.SignUpForm;
 import com.jodonghyeon.neighborfriend.geoLite2.GeoService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.net.UnknownHostException;
 
