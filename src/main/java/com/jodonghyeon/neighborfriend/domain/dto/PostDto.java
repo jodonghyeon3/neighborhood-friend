@@ -10,6 +10,7 @@ import java.time.LocalDateTime;
 @Getter
 @Builder
 public class PostDto {
+    private Long id;
     private String title;
     private String place;
     private LocalDateTime time;
@@ -18,10 +19,12 @@ public class PostDto {
 
     public static PostDto from(Post post) {
         return PostDto.builder()
+                .id(post.getId())
                 .title(post.getTitle())
                 .place(post.getPlace())
                 .time(post.getTime())
                 .status(post.getStatus())
                 .build();
     }
+
 }
