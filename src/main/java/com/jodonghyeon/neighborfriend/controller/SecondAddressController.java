@@ -13,38 +13,36 @@ import java.util.List;
 
 @RequiredArgsConstructor
 @RestController
-@RequestMapping("/post")
-public class PostController {
+@RequestMapping("/address/second")
+public class SecondAddressController {
 
     private final JwtAuthenticationProvider provider;
     private final PostService postService;
 
-    @PostMapping("/homeregister")
-    public ResponseEntity<String> homeRegistration(@RequestHeader(name = "X-AUTH-TOKEN") String token
-            , @RequestBody PostForm form) {
-        UserVo vo = provider.getUserVo(token);
-        return ResponseEntity.ok(postService.homePostRegister(form, vo.getEmail()));
-    }
+    /*
+    1. 주소기반 컨트롤러 분리
+    2. 약속 컨트롤러 따로
+    3. 신청한 사람들의 테이블 따로 승인/거부 여부도 새로생긴 테이블
+    4. 약속회원 테이블 약속회원 id PK키로 생성
+    /home/posts/create-post
+    /company/posts/create-post
+     */
 
-    @PostMapping("/companyregister")
-    public ResponseEntity<String> companyRegistration(@RequestHeader(name = "X-AUTH-TOKEN") String token
+
+    @PostMapping("/posts/create-post")
+    public ResponseEntity<String> createPost(@RequestHeader(name = "X-AUTH-TOKEN") String token
             , @RequestBody PostForm form) {
         UserVo vo = provider.getUserVo(token);
         return ResponseEntity.ok(postService.companyPostRegister(form, vo.getEmail()));
     }
 
-    @GetMapping("/homelist")
-    public ResponseEntity<List<PostDto>> homeList(@RequestHeader(name = "X-AUTH-TOKEN") String token) {
-        UserVo vo = provider.getUserVo(token);
-        return ResponseEntity.ok(postService.homePostList(vo.getEmail()));
-    }
 
-    @GetMapping("/companylist")
-    public ResponseEntity<List<PostDto>> CompanyList(@RequestHeader(name = "X-AUTH-TOKEN") String token) {
+
+    @GetMapping("/posts/lists")
+    public ResponseEntity<List<PostDto>> postList(@RequestHeader(name = "X-AUTH-TOKEN") String token) {
         UserVo vo = provider.getUserVo(token);
         return ResponseEntity.ok(postService.companyPostList(vo.getEmail()));
     }
-
 
 
 

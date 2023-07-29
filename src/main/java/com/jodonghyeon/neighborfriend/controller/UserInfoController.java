@@ -33,13 +33,13 @@ public class UserInfoController {
         return ResponseEntity.ok(UserDto.from(u));
     }
 
-    @GetMapping("/homeaddress")
+    @GetMapping("/address1")
     public ResponseEntity<String> setHomeAddress(@RequestHeader(name = "X-AUTH-TOKEN") String token) throws UnknownHostException {
         UserVo vo = provider.getUserVo(token);
         return ResponseEntity.ok(userInfoService.findByIdAndEmailAndSetHomeAddress(vo.getId(), vo.getEmail()));
     }
 
-    @GetMapping("/companyaddress")
+    @GetMapping("/address2")
     public ResponseEntity<String> setCompanyAddress(@RequestHeader(name = "X-AUTH-TOKEN") String token) throws UnknownHostException {
         UserVo vo = provider.getUserVo(token);
         return ResponseEntity.ok(userInfoService.findByIdAndEmailAndSetCompanyAddress(vo.getId(), vo.getEmail()));

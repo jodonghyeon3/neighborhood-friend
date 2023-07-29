@@ -9,8 +9,9 @@ import org.springframework.http.HttpStatus;
 public enum ErrorCode {
     LOGIN_CHECK_FAIL(HttpStatus.BAD_REQUEST, "아이디나 패스워드를 확인해 주세요."),
     NOT_FOUND_USER(HttpStatus.BAD_REQUEST, "일치 하는 회원이 없습니다."),
-    ALREADY_REGISTER_USER(HttpStatus.BAD_REQUEST, "이미 가입된 회원입니다.");
-
+    ALREADY_REGISTER_USER(HttpStatus.BAD_REQUEST, "이미 가입된 회원입니다."),
+    ALREADY_FINISHED_PROMISE(HttpStatus.BAD_REQUEST, "이미 종료된 약속입니다."),
+    NOT_FOUND_POST(HttpStatus.BAD_REQUEST, "존재 하지 않는 게시글 입니다.");
 
     private final HttpStatus status;
     private final String detail;
