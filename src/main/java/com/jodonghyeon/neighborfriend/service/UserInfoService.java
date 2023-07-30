@@ -32,8 +32,6 @@ public class UserInfoService {
 
         Address city = geoService.findCity();
         u.setHomeAddress(city);
-        String[] sArr = {"asd"};
-        Arrays.sort(sArr);
         return "집주소를 정상적으로 등록하였습니다.";
 
 
@@ -46,6 +44,7 @@ public class UserInfoService {
 
         Address city = geoService.findCity();
         u.setCompanyAddress(city);
+
         return "회사 주소를 정상적으로 등록하였습니다.";
     }
 }

@@ -30,7 +30,7 @@ public class User extends BaseEntity{
     private String phone;
     private LocalDate birth;
     private Long age;
-    private Double star_rating;
+    private Double rate;
 
     @Enumerated(EnumType.STRING)
     private Gender gender;
@@ -62,6 +62,8 @@ public class User extends BaseEntity{
                 .birth(form.getBirth())
                 .age(form.getAge())
                 .gender(form.getGender())
+                .rate(0.0)
                 .build();
     }
+
 }

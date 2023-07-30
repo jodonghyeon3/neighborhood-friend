@@ -44,25 +44,39 @@ public class PostService {
     public List<PostDto> findByUserAddress(String email) {
         User user = userRepository.findByEmail(email)
                 .orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_USER));
-        String address = user.getHomeAddress().getAddress();
+        String address = null;
+        try {
+            address = user.getHomeAddress().getAddress();
+        } catch (NullPointerException e) {
+            throw new CustomException(ErrorCode.NOT_FOUND_ADDRESS);
+        }
 
-        return postRepository.findByAddress(address).stream()
-                .map(PostDto::from).collect(Collectors.toList());
-    }
 
-
-    // 게시글 검색시 게시글 상태가 RECRUITMENT_COMPLETE일 경우에는 조회가 안되게
-    public List<PostDto> companyPostList(String email) {
-        User user = userRepository.findByEmail(email)
-                .orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_USER));
-        String address = user.getCompanyAddress().getAddress();
-
-        List<Post> posts = postRepository.findByAddress(address);
-        List<PostDto> filteredPostDtos = posts.stream()
+        List<Post> posts = postRepository.findByAddress(address)
+                .orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_POST));
+        return posts.stream()
                 .filter(post -> !post.getStatus().equals(PostStatus.RECRUITMENT_COMPLETE))
                 .map(PostDto::from)
                 .collect(Collectors.toList());
+    }
 
-        return filteredPostDtos;
+    public List<PostDto> companyPostList(String email) {
+        User user = userRepository.findByEmail(email)
+                .orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_USER));
+
+        String address = null;
+        try {
+            address = user.getHomeAddress().getAddress();
+        } catch (NullPointerException e) {
+            throw new CustomException(ErrorCode.NOT_FOUND_ADDRESS);
+        }
+        List<Post> posts = postRepository.findByAddress(address)
+                .orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_POST));
+
+
+        return posts.stream()
+                .filter(post -> !post.getStatus().equals(PostStatus.RECRUITMENT_COMPLETE))
+                .map(PostDto::from)
+                .collect(Collectors.toList());
     }
 }
