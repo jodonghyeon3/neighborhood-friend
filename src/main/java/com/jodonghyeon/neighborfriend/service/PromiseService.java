@@ -1,5 +1,6 @@
 package com.jodonghyeon.neighborfriend.service;
 
+import com.jodonghyeon.neighborfriend.domain.dto.ParticipateDTO;
 import com.jodonghyeon.neighborfriend.domain.model.Participate;
 import com.jodonghyeon.neighborfriend.domain.model.Post;
 import com.jodonghyeon.neighborfriend.domain.model.User;
@@ -13,17 +14,22 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @Transactional
 @RequiredArgsConstructor
 public class PromiseService {
 
-    private ParticipateRepository participateRepository;
-    private UserRepository userRepository;
-    private PostRepository postRepository;
+    private final ParticipateRepository participateRepository;
+    private final UserRepository userRepository;
+    private final PostRepository postRepository;
 
     public String applyPromiseByPostId(String email, Long id) {
+
+        System.out.println("id = " + id);
         User user = userRepository.findByEmail(email)
                 .orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_USER));
 
@@ -31,10 +37,31 @@ public class PromiseService {
                 (() -> new CustomException(ErrorCode.NOT_FOUND_POST));
 
         if (PostStatus.RECRUITMENT_COMPLETE.equals(post.getStatus())) {
-            new CustomException(ErrorCode.ALREADY_FINISHED_PROMISE);
+           throw new CustomException(ErrorCode.ALREADY_FINISHED_PROMISE);
         }
 
         participateRepository.save(Participate.from(user, post));
         return "약속 신청이 완료되었습니다.";
+    }
+
+    public List<ParticipateDTO> applyUserListByPostId(String email, Long emailId) {
+        User user = userRepository.findByEmail(email)
+                .orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_USER));
+
+        Post post = postRepository.findByIdAndUserId(emailId, user.getId())
+                .orElseThrow(() -> new CustomException(ErrorCode.NOT_PERMITTED_CONNECT));
+
+
+        List<Participate> byPostId = participateRepository.findByPostId(post.getId())
+                .orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_POST));
+
+        List<User> users = new ArrayList<>();
+        for (int i = 0; i < byPostId.size(); i++) {
+            users.add(userRepository.findByEmail(byPostId.get(i).getUserEmail()).get());
+        }
+        return users.stream()
+                .map(ParticipateDTO::from)
+                .collect(Collectors.toList());
+
     }
 }

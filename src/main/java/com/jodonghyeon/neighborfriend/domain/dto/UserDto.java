@@ -33,10 +33,11 @@ public class UserDto {
                 .phone(form.getPhone())
                 .birth(form.getBirth())
                 .age(form.getAge())
-                .star_rating(form.getStar_rating())
+                .star_rating(form.getRate())
                 .gender(form.getGender())
                 .homeAddress(form.getHomeAddress())
                 .companyAddress(form.getCompanyAddress())
                 .build();
     }
+
 }

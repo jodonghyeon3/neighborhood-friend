@@ -15,15 +15,16 @@ import javax.persistence.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @AuditOverride(forClass = BaseEntity.class)
-public class Participate {
+public class Participate extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String user_name;
+    private String userName;
 
-    private String user_email;
+    private String userEmail;
 
+    @Enumerated(EnumType.STRING)
     private ParticipateStatus status;
 
     @ManyToOne
@@ -33,8 +34,8 @@ public class Participate {
 
     public static Participate from(User user, Post post) {
         return Participate.builder()
-                .user_name(user.getName())
-                .user_name(user.getEmail())
+                .userName(user.getName())
+                .userEmail(user.getEmail())
                 .status(ParticipateStatus.WAIT)
                 .post(post)
                 .build();
