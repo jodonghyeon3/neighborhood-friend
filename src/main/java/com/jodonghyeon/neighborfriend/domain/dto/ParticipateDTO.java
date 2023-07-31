@@ -1,6 +1,5 @@
 package com.jodonghyeon.neighborfriend.domain.dto;
 
-import com.jodonghyeon.neighborfriend.domain.model.Participate;
 import com.jodonghyeon.neighborfriend.domain.model.User;
 import com.jodonghyeon.neighborfriend.domain.type.Gender;
 import lombok.Builder;
@@ -19,6 +18,9 @@ public class ParticipateDTO {
     private Gender gender;
 
     private Double rate;
+
+//    private ParticipateStatus status;
+    // 상태도 추가해야됨
 
     public static ParticipateDTO from(User user) {
         return ParticipateDTO.builder()
