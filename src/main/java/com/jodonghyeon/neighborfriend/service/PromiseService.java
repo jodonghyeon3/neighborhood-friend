@@ -7,6 +7,7 @@ import com.jodonghyeon.neighborfriend.domain.model.User;
 import com.jodonghyeon.neighborfriend.domain.repository.ParticipateRepository;
 import com.jodonghyeon.neighborfriend.domain.repository.PostRepository;
 import com.jodonghyeon.neighborfriend.domain.repository.UserRepository;
+import com.jodonghyeon.neighborfriend.domain.type.ParticipateStatus;
 import com.jodonghyeon.neighborfriend.domain.type.PostStatus;
 import com.jodonghyeon.neighborfriend.exception.CustomException;
 import com.jodonghyeon.neighborfriend.exception.ErrorCode;
@@ -37,7 +38,7 @@ public class PromiseService {
                 (() -> new CustomException(ErrorCode.NOT_FOUND_POST));
 
         if (PostStatus.RECRUITMENT_COMPLETE.equals(post.getStatus())) {
-           throw new CustomException(ErrorCode.ALREADY_FINISHED_PROMISE);
+            throw new CustomException(ErrorCode.ALREADY_FINISHED_PROMISE);
         }
 
         participateRepository.save(Participate.from(user, post));
@@ -63,5 +64,34 @@ public class PromiseService {
                 .map(ParticipateDTO::from)
                 .collect(Collectors.toList());
 
+    }
+
+    public String approveUser(String userEmail, String partiEmail) {
+        User user = userRepository.findByEmail(userEmail)
+                .orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_USER));
+
+        Participate participate = participateRepository.findByUserEmail(partiEmail)
+                .orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_USER));
+
+        if (!participate.getPost().getUser().equals(user)) {
+            throw new CustomException(ErrorCode.NOT_PERMITTED_CONNECT);
+        }
+
+        Participate.changeStatus(participate, ParticipateStatus.APPROVE);
+        return "수락 되었습니다.";
+    }
+    public String cancelUser(String userEmail, String partiEmail) {
+        User user = userRepository.findByEmail(userEmail)
+                .orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_USER));
+
+        Participate participate = participateRepository.findByUserEmail(partiEmail)
+                .orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_USER));
+
+        if (!participate.getPost().getUser().equals(user)) {
+            throw new CustomException(ErrorCode.NOT_PERMITTED_CONNECT);
+        }
+
+        Participate.changeStatus(participate, ParticipateStatus.CANCEL);
+        return "거절 하였습니다.";
     }
 }

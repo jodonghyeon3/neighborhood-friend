@@ -10,4 +10,6 @@ import java.util.Optional;
 @Repository
 public interface ParticipateRepository extends JpaRepository<Participate, Long> {
     Optional<List<Participate>> findByPostId(Long PostId);
+
+    Optional<Participate> findByUserEmail(String partiEmail);
 }

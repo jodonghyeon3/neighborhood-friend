@@ -41,4 +41,9 @@ public class Participate extends BaseEntity {
                 .build();
     }
 
+    public static Participate changeStatus(Participate participate, ParticipateStatus status) {
+        return participate.builder()
+                .status(status)
+                .build();
+    }
 }
