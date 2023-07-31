@@ -13,7 +13,7 @@ import java.util.List;
 
 @RequiredArgsConstructor
 @RestController
-@RequestMapping("/address/second")
+@RequestMapping("/address/second/posts")
 public class SecondAddressController {
 
     private final JwtAuthenticationProvider provider;
@@ -29,7 +29,7 @@ public class SecondAddressController {
      */
 
 
-    @PostMapping("/posts/create-post")
+    @PostMapping("/create-post")
     public ResponseEntity<String> createPost(@RequestHeader(name = "X-AUTH-TOKEN") String token
             , @RequestBody PostForm form) {
         UserVo vo = provider.getUserVo(token);
@@ -38,11 +38,22 @@ public class SecondAddressController {
 
 
 
-    @GetMapping("/posts/lists")
+    @GetMapping("/lists")
     public ResponseEntity<List<PostDto>> postList(@RequestHeader(name = "X-AUTH-TOKEN") String token) {
         UserVo vo = provider.getUserVo(token);
         return ResponseEntity.ok(postService.companyPostList(vo.getEmail()));
     }
+
+    @GetMapping("/close")
+    public ResponseEntity<String> close(@RequestHeader(name = "X-AUTH-TOKEN") String token,
+                                        @RequestParam(name = "postId") Long postId) {
+        UserVo vo = provider.getUserVo(token);
+        return ResponseEntity.ok(postService.findByPostIdAndUserId(postId, vo.getId()));
+    }
+
+
+
+
 
 
 

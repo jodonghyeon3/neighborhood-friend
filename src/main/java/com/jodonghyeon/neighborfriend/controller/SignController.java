@@ -17,7 +17,6 @@ import java.net.UnknownHostException;
 public class SignController {
 
     private final SignApplication signApplication;
-    private final GeoService geoService;
 
     @PostMapping("/signup")
     public ResponseEntity<String> signUpUser(@RequestBody SignUpForm form) throws UnknownHostException {
@@ -28,7 +27,6 @@ public class SignController {
     public ResponseEntity<String> signInUser(@RequestBody SignInForm form) {
         return ResponseEntity.ok(signApplication.userLoginToken(form));
     }
-
 
 
 }
