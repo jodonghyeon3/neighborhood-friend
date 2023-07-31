@@ -47,4 +47,9 @@ public class Post extends BaseEntity {
                 .build();
     }
 
+    public static Post closePost(PostStatus postStatus) {
+        return Post.builder()
+                .status(postStatus)
+                .build();
+    }
 }

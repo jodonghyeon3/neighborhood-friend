@@ -44,4 +44,6 @@ public class PromiseController {
         UserVo vo = provider.getUserVo(token);
         return ResponseEntity.ok(promiseService.cancelUser(vo.getEmail(), email));
     }
+
+
 }

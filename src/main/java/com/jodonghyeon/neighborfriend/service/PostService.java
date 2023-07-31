@@ -79,4 +79,20 @@ public class PostService {
                 .map(PostDto::from)
                 .collect(Collectors.toList());
     }
+
+    public String findByPostIdAndUserId(Long postId, Long id) {
+
+        User user = userRepository.findById(id)
+                .orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_USER));
+
+        Post post = postRepository.findById(postId)
+                .orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_POST));
+
+        if (post.getUser().equals(user)) {
+            throw new CustomException(ErrorCode.NOT_PERMITTED_CONNECT);
+        }
+        post.closePost(PostStatus.RECRUITMENT_COMPLETE);
+
+        return "약속이 마감되었습니다.";
+    }
 }
