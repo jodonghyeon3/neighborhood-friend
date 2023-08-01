@@ -9,22 +9,20 @@ import com.jodonghyeon.neighborfriend.exception.ErrorCode;
 import com.jodonghyeon.neighborfriend.service.UserInfoService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestHeader;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.net.UnknownHostException;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/user/info")
+@RequestMapping("/user/detail")
 public class UserInfoController {
 
     private final JwtAuthenticationProvider provider;
     private final UserInfoService userInfoService;
+
     @GetMapping
-    public ResponseEntity<UserDto> detailUser(@RequestHeader(name = "X-AUTH-TOKEN") String token) {
+    public ResponseEntity<UserDto> userDetails(@RequestHeader(name = "X-AUTH-TOKEN") String token) {
         UserVo vo = provider.getUserVo(token);
 
         User u = userInfoService.findByIdAndEmail(vo.getId(), vo.getEmail())
@@ -33,19 +31,17 @@ public class UserInfoController {
         return ResponseEntity.ok(UserDto.from(u));
     }
 
-    @GetMapping("/address1")
-    public ResponseEntity<String> setHomeAddress(@RequestHeader(name = "X-AUTH-TOKEN") String token) throws UnknownHostException {
+    @PutMapping("/first-address")
+    public ResponseEntity<String> firstAddressAdd(@RequestHeader(name = "X-AUTH-TOKEN") String token) throws UnknownHostException {
         UserVo vo = provider.getUserVo(token);
         return ResponseEntity.ok(userInfoService.findByIdAndEmailAndSetHomeAddress(vo.getId(), vo.getEmail()));
     }
 
-    @GetMapping("/address2")
-    public ResponseEntity<String> setCompanyAddress(@RequestHeader(name = "X-AUTH-TOKEN") String token) throws UnknownHostException {
+    @PutMapping("/second-address")
+    public ResponseEntity<String> secondAddressAdd(@RequestHeader(name = "X-AUTH-TOKEN") String token) throws UnknownHostException {
         UserVo vo = provider.getUserVo(token);
         return ResponseEntity.ok(userInfoService.findByIdAndEmailAndSetCompanyAddress(vo.getId(), vo.getEmail()));
     }
-
-
 
 
 }

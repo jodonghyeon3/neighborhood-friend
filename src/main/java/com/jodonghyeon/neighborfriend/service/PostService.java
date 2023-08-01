@@ -1,19 +1,25 @@
 package com.jodonghyeon.neighborfriend.service;
 
+import com.jodonghyeon.neighborfriend.domain.dto.CommentsDTO;
 import com.jodonghyeon.neighborfriend.domain.dto.PostDto;
+import com.jodonghyeon.neighborfriend.domain.form.CommentsForm;
 import com.jodonghyeon.neighborfriend.domain.form.PostForm;
+import com.jodonghyeon.neighborfriend.domain.model.Comments;
 import com.jodonghyeon.neighborfriend.domain.model.Post;
 import com.jodonghyeon.neighborfriend.domain.model.User;
+import com.jodonghyeon.neighborfriend.domain.repository.CommentsRepository;
 import com.jodonghyeon.neighborfriend.domain.repository.PostRepository;
 import com.jodonghyeon.neighborfriend.domain.repository.UserRepository;
 import com.jodonghyeon.neighborfriend.domain.type.PostStatus;
 import com.jodonghyeon.neighborfriend.exception.CustomException;
 import com.jodonghyeon.neighborfriend.exception.ErrorCode;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -22,6 +28,8 @@ import java.util.stream.Collectors;
 public class PostService {
     private final PostRepository postRepository;
     private final UserRepository userRepository;
+    private final CommentsRepository commentsRepository;
+
 
     public String createPost(PostForm form, String email) {
         User user = userRepository.findByEmail(email)
@@ -95,4 +103,6 @@ public class PostService {
 
         return "약속이 마감되었습니다.";
     }
+
+
 }

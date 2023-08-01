@@ -13,6 +13,7 @@ public enum ErrorCode {
     ALREADY_FINISHED_PROMISE(HttpStatus.BAD_REQUEST, "이미 종료된 약속입니다."),
     NOT_FOUND_POST(HttpStatus.BAD_REQUEST, "존재 하지 않는 게시글 입니다."),
     NOT_FOUND_ADDRESS(HttpStatus.BAD_REQUEST, "주소를 등록후 이용하세요."),
+    NOT_FOUND_COMMENT(HttpStatus.BAD_REQUEST, "댓글이 존재하지 않습니다."),
     NOT_PERMITTED_CONNECT(HttpStatus.BAD_REQUEST,"접근 권한이 없습니다." );
 
     private final HttpStatus status;
