@@ -1,5 +1,6 @@
 package com.jodonghyeon.neighborfriend.domain.form;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 @Getter

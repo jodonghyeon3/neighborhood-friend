@@ -13,27 +13,29 @@ import java.util.List;
 
 @RequiredArgsConstructor
 @RestController
-@RequestMapping("/address/first/posts")
+@RequestMapping("/posts/first")
 public class FirstAddressController {
     private final JwtAuthenticationProvider provider;
     private final PostService postService;
-    @PostMapping("/register")
-    public ResponseEntity<String> createPost(@RequestHeader(name = "X-AUTH-TOKEN") String token
-            , @RequestBody PostForm form) {
+
+    @PostMapping
+    public ResponseEntity<String> postAdd(@RequestHeader(name = "X-AUTH-TOKEN") String token,
+                                          @RequestBody PostForm form) {
         UserVo vo = provider.getUserVo(token);
         return ResponseEntity.ok(postService.createPost(form, vo.getEmail()));
     }
 
-    @GetMapping("/list")
-    public ResponseEntity<List<PostDto>> getPostList(@RequestHeader(name = "X-AUTH-TOKEN") String token) {
+    @GetMapping
+    public ResponseEntity<List<PostDto>> postList(@RequestHeader(name = "X-AUTH-TOKEN") String token) {
         UserVo vo = provider.getUserVo(token);
         return ResponseEntity.ok(postService.findByUserAddress(vo.getEmail()));
     }
 
-    @GetMapping("/close")
-    public ResponseEntity<String> close(@RequestHeader(name = "X-AUTH-TOKEN") String token,
-                                        @RequestParam(name = "postId") Long postId) {
+    @PutMapping("/status")
+    public ResponseEntity<String> postClose(@RequestHeader(name = "X-AUTH-TOKEN") String token,
+                                            @RequestParam(name = "postId") Long postId) {
         UserVo vo = provider.getUserVo(token);
         return ResponseEntity.ok(postService.findByPostIdAndUserId(postId, vo.getId()));
     }
+
 }
