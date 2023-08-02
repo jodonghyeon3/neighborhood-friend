@@ -45,21 +45,22 @@ public class ReviewService {
                 () -> new CustomException(ErrorCode.NOT_FOUND_PROMISE)
         );
 
-        Participate participate = participates.stream()
-                .filter(part -> part.getUserName().equals(user.getName()) &&
-                        part.getUserEmail().equals(user.getEmail()) &&
-                        ParticipateStatus.APPROVE.equals(part.getStatus()))
-                .findFirst()
-                .orElseThrow(() -> new CustomException(ErrorCode.NOT_PERMITTED_CONNECT));
+        participateRepository.findByUserEmailAndUserNameAndStatus(user.getEmail(), user.getName(), ParticipateStatus.APPROVE).orElseThrow(
+                () -> new CustomException(ErrorCode.NOT_PERMITTED_CONNECT)
+        );
 
         reviewRepository.save(Review.from(form, user.getName(), user.getEmail()));
 
         User postsUser = post.getUser();
         Double rate = postsUser.getRate();
-        if (rate == 0.0) {
+
+
+        if (rate.equals(0.0)) {
             postsUser.setRate(form.getRating());
         } else {
-            postsUser.setRate((rate + form.getRating()) / 2);
+            Long ratePeople = postsUser.getRatePeople();
+            postsUser.setRate(((rate * ratePeople) + form.getRating()) / (ratePeople + 1));
+
         }
 
         return "리뷰 작성이 완료되었습니다.";

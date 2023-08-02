@@ -29,6 +29,16 @@ public class Post extends BaseEntity {
     private Double lat;
     private Double lon;
 
+    // 어느주소인지
+
+    @Embedded
+    @AttributeOverrides({
+            @AttributeOverride(name = "address", column = @Column(name = "address")),
+            @AttributeOverride(name = "lat", column = @Column(name = "lat")),
+            @AttributeOverride(name = "lon", column = @Column(name = "lon"))
+    })
+    private Address address;
+
     @Enumerated(EnumType.STRING)
     private PostStatus status;
 
@@ -36,7 +46,7 @@ public class Post extends BaseEntity {
     @JoinColumn(name = "user_id")
     private User user;
 
-    public static Post from(PostForm form, User userId) {
+    public static Post from(PostForm form, User userId, Address address1) {
         return Post.builder()
                 .title(form.getTitle())
                 .detail(form.getDetail())
@@ -44,6 +54,7 @@ public class Post extends BaseEntity {
                 .time(form.getTime())
                 .user(userId)
                 .status(PostStatus.RECRUITING)
+                .address(address1)
                 .build();
     }
 
