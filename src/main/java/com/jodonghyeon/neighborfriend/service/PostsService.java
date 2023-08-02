@@ -1,37 +1,30 @@
 package com.jodonghyeon.neighborfriend.service;
 
-import com.jodonghyeon.neighborfriend.domain.dto.CommentsDTO;
 import com.jodonghyeon.neighborfriend.domain.dto.PostDto;
-import com.jodonghyeon.neighborfriend.domain.form.CommentsForm;
 import com.jodonghyeon.neighborfriend.domain.form.PostForm;
-import com.jodonghyeon.neighborfriend.domain.model.Comments;
 import com.jodonghyeon.neighborfriend.domain.model.Post;
 import com.jodonghyeon.neighborfriend.domain.model.User;
-import com.jodonghyeon.neighborfriend.domain.repository.CommentsRepository;
 import com.jodonghyeon.neighborfriend.domain.repository.PostRepository;
 import com.jodonghyeon.neighborfriend.domain.repository.UserRepository;
 import com.jodonghyeon.neighborfriend.domain.type.PostStatus;
 import com.jodonghyeon.neighborfriend.exception.CustomException;
 import com.jodonghyeon.neighborfriend.exception.ErrorCode;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
 @Transactional
 @RequiredArgsConstructor
-public class PostService {
+public class PostsService {
     private final PostRepository postRepository;
     private final UserRepository userRepository;
-    private final CommentsRepository commentsRepository;
 
 
-    public String createPost(PostForm form, String email) {
+    public String addFirstAddressPosts(PostForm form, String email) {
         User user = userRepository.findByEmail(email)
                 .orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_USER));
 
@@ -40,8 +33,7 @@ public class PostService {
 
     }
 
-
-    public String companyPostRegister(PostForm form, String email) {
+    public String addSecondAddressPosts(PostForm form, String email) {
         User user = userRepository.findByEmail(email)
                 .orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_USER));
 
@@ -49,18 +41,18 @@ public class PostService {
         return "게시글이 등록되었습니다.";
     }
 
-    public List<PostDto> findByUserAddress(String email) {
+    public List<PostDto> listFirstAddressPosts(String email) {
         User user = userRepository.findByEmail(email)
                 .orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_USER));
         String address = null;
         try {
-            address = user.getHomeAddress().getAddress();
+            address = user.getFirstAddress().getAddress();
         } catch (NullPointerException e) {
             throw new CustomException(ErrorCode.NOT_FOUND_ADDRESS);
         }
 
 
-        List<Post> posts = postRepository.findByAddress(address)
+        List<Post> posts = postRepository.findByFirstAddress(address)
                 .orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_POST));
         return posts.stream()
                 .filter(post -> !post.getStatus().equals(PostStatus.RECRUITMENT_COMPLETE))
@@ -68,17 +60,17 @@ public class PostService {
                 .collect(Collectors.toList());
     }
 
-    public List<PostDto> companyPostList(String email) {
+    public List<PostDto> listSecondAddressPosts(String email) {
         User user = userRepository.findByEmail(email)
                 .orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_USER));
 
         String address = null;
         try {
-            address = user.getHomeAddress().getAddress();
+            address = user.getSecondAddress().getAddress();
         } catch (NullPointerException e) {
             throw new CustomException(ErrorCode.NOT_FOUND_ADDRESS);
         }
-        List<Post> posts = postRepository.findByAddress(address)
+        List<Post> posts = postRepository.findBySecondAddress(address)
                 .orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_POST));
 
 
@@ -88,7 +80,7 @@ public class PostService {
                 .collect(Collectors.toList());
     }
 
-    public String findByPostIdAndUserId(Long postId, Long id) {
+    public String modifyPostsStatus(Long postId, Long id) {
 
         User user = userRepository.findById(id)
                 .orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_USER));
@@ -99,10 +91,36 @@ public class PostService {
         if (post.getUser().equals(user)) {
             throw new CustomException(ErrorCode.NOT_PERMITTED_CONNECT);
         }
-        post.closePost(PostStatus.RECRUITMENT_COMPLETE);
+        Post.closePost(PostStatus.RECRUITMENT_COMPLETE);
 
         return "약속이 마감되었습니다.";
     }
 
 
+    public String modifyPosts(Long userId, Long postsId, PostForm form) {
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_USER));
+
+        Post post = postRepository.findById(postsId)
+                .orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_POST));
+        if (post.getUser().equals(user)) {
+            throw new CustomException(ErrorCode.NOT_PERMITTED_CONNECT);
+        }
+
+        Post.modify(form);
+        return "게시글이 수정되었습니다.";
+    }
+
+    public String removePosts(Long userId, Long postsId) {
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_USER));
+
+        Post post = postRepository.findById(postsId)
+                .orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_POST));
+        if (post.getUser().equals(user)) {
+            throw new CustomException(ErrorCode.NOT_PERMITTED_CONNECT);
+        }
+        postRepository.delete(post);
+        return "게시글이 삭제되었습니다.";
+    }
 }

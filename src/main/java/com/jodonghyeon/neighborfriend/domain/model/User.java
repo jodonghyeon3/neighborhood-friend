@@ -39,19 +39,19 @@ public class User extends BaseEntity{
 
     @Embedded
     @AttributeOverrides({
-            @AttributeOverride(name = "address", column = @Column(name = "home_address")),
-            @AttributeOverride(name = "lat", column = @Column(name = "home_lat")),
-            @AttributeOverride(name = "lon", column = @Column(name = "home_lon"))
+            @AttributeOverride(name = "address", column = @Column(name = "first_address")),
+            @AttributeOverride(name = "lat", column = @Column(name = "first_lat")),
+            @AttributeOverride(name = "lon", column = @Column(name = "first_lon"))
     })
-    private Address homeAddress;
+    private Address firstAddress;
 
     @Embedded
     @AttributeOverrides({
-            @AttributeOverride(name = "address", column = @Column(name = "company_address")),
-            @AttributeOverride(name = "lat", column = @Column(name = "company_lat")),
-            @AttributeOverride(name = "lon", column = @Column(name = "company_lon"))
+            @AttributeOverride(name = "address", column = @Column(name = "second_address")),
+            @AttributeOverride(name = "lat", column = @Column(name = "second_lat")),
+            @AttributeOverride(name = "lon", column = @Column(name = "second_lon"))
     })
-    private Address companyAddress;
+    private Address secondAddress;
 
     public static User from(SignUpForm form) {
         return User.builder()

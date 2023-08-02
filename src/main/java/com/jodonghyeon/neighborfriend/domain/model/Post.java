@@ -52,4 +52,13 @@ public class Post extends BaseEntity {
                 .status(postStatus)
                 .build();
     }
+
+    public static Post modify(PostForm form) {
+        return Post.builder()
+                .title(form.getTitle())
+                .detail(form.getDetail())
+                .place(form.getPlace())
+                .time(form.getTime())
+                .build();
+    }
 }
