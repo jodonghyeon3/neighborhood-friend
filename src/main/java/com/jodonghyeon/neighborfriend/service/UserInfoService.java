@@ -9,7 +9,6 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.net.UnknownHostException;
-import java.util.Arrays;
 import java.util.Optional;
 
 @Service
@@ -25,26 +24,26 @@ public class UserInfoService {
                 .findFirst();
     }
 
-    public String findByIdAndEmailAndSetHomeAddress(Long id, String email) throws UnknownHostException {
+    public String addFirstAddress(Long id, String email) throws UnknownHostException {
         User u = userRepository.findById(id).stream()
                 .filter(user -> user.getEmail().equals(email))
                 .findFirst().get();
 
         Address city = geoService.findCity();
-        u.setHomeAddress(city);
-        return "집주소를 정상적으로 등록하였습니다.";
+        u.setFirstAddress(city);
+        return "주소를 정상적으로 등록하였습니다.";
 
 
     }
 
-    public String findByIdAndEmailAndSetCompanyAddress(Long id, String email) throws UnknownHostException {
+    public String addSecondAddress(Long id, String email) throws UnknownHostException {
         User u = userRepository.findById(id).stream()
                 .filter(user -> user.getEmail().equals(email))
                 .findFirst().get();
 
         Address city = geoService.findCity();
-        u.setCompanyAddress(city);
+        u.setSecondAddress(city);
 
-        return "회사 주소를 정상적으로 등록하였습니다.";
+        return "주소를 정상적으로 등록하였습니다.";
     }
 }

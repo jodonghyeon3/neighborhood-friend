@@ -35,8 +35,8 @@ public class UserDto {
                 .age(form.getAge())
                 .star_rating(form.getRate())
                 .gender(form.getGender())
-                .homeAddress(form.getHomeAddress())
-                .companyAddress(form.getCompanyAddress())
+                .homeAddress(form.getFirstAddress())
+                .companyAddress(form.getSecondAddress())
                 .build();
     }
 

@@ -13,37 +13,39 @@ import java.util.List;
 
 @RequiredArgsConstructor
 @RestController
-@RequestMapping("/posts/comments")
+@RequestMapping("/posts/{posts}/comments")
 public class CommentsController {
     private final JwtAuthenticationProvider provider;
     private final CommentsService commentsService;
 
     @PostMapping
     public ResponseEntity<String> commentsAdd(@RequestHeader(name = "X-AUTH-TOKEN") String token,
-                                              @RequestParam(name = "postId") Long postId,
+                                              @PathVariable(name = "posts") Long postId,
                                               @RequestBody CommentsForm form) {
         UserVo vo = provider.getUserVo(token);
-        return ResponseEntity.ok(commentsService.addComment(postId, vo.getEmail(), form));
+        return ResponseEntity.ok(commentsService.addComments(postId, vo.getEmail(), form));
     }
 
     @GetMapping
     public ResponseEntity<List<CommentsDTO>> commentList(@RequestHeader(name = "X-AUTH-TOKEN") String token,
-                                                         @RequestParam(name = "postId") Long postId) {
+                                                         @PathVariable(name = "posts") Long postId) {
         UserVo vo = provider.getUserVo(token);
         return ResponseEntity.ok(commentsService.listComments(vo.getEmail(), postId));
     }
 
-    @PutMapping
+    @PutMapping("{comment}")
     public ResponseEntity<String> commentModify(@RequestHeader(name = "X-AUTH-TOKEN") String token,
-                                                @RequestParam(name = "commentId") Long commentId,
-                                                @RequestBody CommentsForm form) {
+                                                @PathVariable(name = "comment") Long commentId,
+                                                @RequestBody String form,
+                                                @PathVariable(name = "posts") Long postsId) {
         UserVo vo = provider.getUserVo(token);
         return ResponseEntity.ok(commentsService.modifyComments(commentId, vo.getEmail(), form));
     }
 
-    @DeleteMapping
+    @DeleteMapping("{comment}")
     public ResponseEntity<String> commentRemove(@RequestHeader(name = "X-AUTH-TOKEN") String token,
-                                                @RequestParam(name = "commentId") Long commentId) {
+                                                @PathVariable(name = "comment") Long commentId,
+                                                @PathVariable(name = "posts") Long postsId) {
         UserVo vo = provider.getUserVo(token);
         return ResponseEntity.ok(commentsService.removeComments(vo.getEmail(), vo.getId(), commentId));
     }

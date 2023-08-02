@@ -30,7 +30,6 @@ public class PromiseService {
 
     public String applyPromiseByPostId(String email, Long id) {
 
-        System.out.println("id = " + id);
         User user = userRepository.findByEmail(email)
                 .orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_USER));
 

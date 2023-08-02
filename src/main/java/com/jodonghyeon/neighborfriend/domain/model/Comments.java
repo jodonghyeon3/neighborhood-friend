@@ -39,9 +39,9 @@ public class Comments extends BaseEntity{
                 .build();
     }
 
-    public static Comments update(CommentsForm form) {
+    public static Comments update(String form) {
         return Comments.builder()
-                .comment(form.getComment())
+                .comment(form)
                 .build();
     }
 }
