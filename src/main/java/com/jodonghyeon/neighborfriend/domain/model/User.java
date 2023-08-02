@@ -31,6 +31,7 @@ public class User extends BaseEntity{
     private LocalDate birth;
     private Long age;
     private Double rate;
+    private Long ratePeople;
 
     @Enumerated(EnumType.STRING)
     private Gender gender;
