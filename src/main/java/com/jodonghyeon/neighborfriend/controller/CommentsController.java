@@ -13,40 +13,41 @@ import java.util.List;
 
 @RequiredArgsConstructor
 @RestController
-@RequestMapping("/posts/{posts}/comments")
+@RequestMapping("/posts")
 public class CommentsController {
     private final JwtAuthenticationProvider provider;
     private final CommentsService commentsService;
 
-    @PostMapping
-    public ResponseEntity<String> commentsAdd(@RequestHeader(name = "X-AUTH-TOKEN") String token,
-                                              @PathVariable(name = "posts") Long postId,
-                                              @RequestBody CommentsForm form) {
+    @PostMapping("/{posts}/comments")
+    public ResponseEntity commentsAdd(@RequestHeader(name = "X-AUTH-TOKEN") String token,
+                                      @PathVariable(name = "posts") Long postId,
+                                      @RequestBody CommentsForm form) {
         UserVo vo = provider.getUserVo(token);
-        return ResponseEntity.ok(commentsService.addComments(postId, vo.getEmail(), form));
+        commentsService.addComments(postId, vo.getEmail(), form);
+        return ResponseEntity.ok().build();
     }
 
-    @GetMapping
+    @GetMapping("/{posts}/comments")
     public ResponseEntity<List<CommentsDTO>> commentList(@RequestHeader(name = "X-AUTH-TOKEN") String token,
                                                          @PathVariable(name = "posts") Long postId) {
         UserVo vo = provider.getUserVo(token);
         return ResponseEntity.ok(commentsService.listComments(vo.getEmail(), postId));
     }
 
-    @PutMapping("{comment}")
-    public ResponseEntity<String> commentModify(@RequestHeader(name = "X-AUTH-TOKEN") String token,
-                                                @PathVariable(name = "comment") Long commentId,
-                                                @RequestBody String form,
-                                                @PathVariable(name = "posts") Long postsId) {
+    @PutMapping("/comments/{comment}")
+    public ResponseEntity commentModify(@RequestHeader(name = "X-AUTH-TOKEN") String token,
+                                        @PathVariable(name = "comment") Long commentId,
+                                        @RequestBody String form) {
         UserVo vo = provider.getUserVo(token);
-        return ResponseEntity.ok(commentsService.modifyComments(commentId, vo.getEmail(), form));
+        commentsService.modifyComments(commentId, vo.getEmail(), form);
+        return ResponseEntity.ok().build();
     }
 
-    @DeleteMapping("{comment}")
-    public ResponseEntity<String> commentRemove(@RequestHeader(name = "X-AUTH-TOKEN") String token,
-                                                @PathVariable(name = "comment") Long commentId,
-                                                @PathVariable(name = "posts") Long postsId) {
+    @DeleteMapping("/comments/{comment}")
+    public ResponseEntity commentRemove(@RequestHeader(name = "X-AUTH-TOKEN") String token,
+                                        @PathVariable(name = "comment") Long commentId) {
         UserVo vo = provider.getUserVo(token);
-        return ResponseEntity.ok(commentsService.removeComments(vo.getEmail(), vo.getId(), commentId));
+        commentsService.removeComments(vo.getEmail(), vo.getId(), commentId);
+        return ResponseEntity.ok().build();
     }
 }

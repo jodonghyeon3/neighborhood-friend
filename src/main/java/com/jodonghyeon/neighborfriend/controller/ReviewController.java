@@ -17,11 +17,12 @@ public class ReviewController {
     private final ReviewService reviewService;
 
     @PostMapping()
-    public ResponseEntity<String> reviewAdd(@RequestHeader(name = "X-AUTH-TOKEN") String token,
+    public ResponseEntity reviewAdd(@RequestHeader(name = "X-AUTH-TOKEN") String token,
                                             @PathVariable(name = "postsId") Long postId,
                                             @RequestBody ReviewForm form) {
         UserVo vo = provider.getUserVo(token);
 
-        return ResponseEntity.ok(reviewService.addReview(vo.getId(), postId, form));
+        reviewService.addReview(vo.getId(), postId, form);
+        return ResponseEntity.ok().build();
     }
 }

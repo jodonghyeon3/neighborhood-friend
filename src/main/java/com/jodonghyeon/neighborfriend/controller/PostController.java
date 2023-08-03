@@ -14,17 +14,18 @@ import java.util.List;
 
 @RequiredArgsConstructor
 @RestController
-@RequestMapping("/posts/")
-public class AddressController {
+@RequestMapping("/posts")
+public class PostController {
     private final JwtAuthenticationProvider provider;
     private final PostsService postsService;
 
     @PostMapping
-    public ResponseEntity<String> postsAdd(@RequestHeader(name = "X-AUTH-TOKEN") String token,
+    public ResponseEntity postsAdd(@RequestHeader(name = "X-AUTH-TOKEN") String token,
                                            @RequestBody PostForm form,
                                            @RequestParam(name = "address") AddressType type) {
         UserVo vo = provider.getUserVo(token);
-        return ResponseEntity.ok(postsService.addAddressPosts(form, vo.getEmail(), type));
+        postsService.addAddressPosts(form, vo.getEmail(), type);
+        return ResponseEntity.ok().build();
     }
 
     @GetMapping
@@ -35,26 +36,29 @@ public class AddressController {
     }
 
     @PutMapping("/status")
-    public ResponseEntity<String> postsClose(@RequestHeader(name = "X-AUTH-TOKEN") String token,
+    public ResponseEntity postsClose(@RequestHeader(name = "X-AUTH-TOKEN") String token,
                                              @RequestParam(name = "postId") Long postId) {
         UserVo vo = provider.getUserVo(token);
-        return ResponseEntity.ok(postsService.modifyPostsStatus(postId, vo.getId()));
+        postsService.modifyPostsStatus(postId, vo.getId());
+        return ResponseEntity.ok().build();
     }
 
     @PutMapping("{posts}")
-    public ResponseEntity<String> postsModify(@RequestHeader(name = "X-AUTH-TOKEN") String token,
+    public ResponseEntity postsModify(@RequestHeader(name = "X-AUTH-TOKEN") String token,
                                               @PathVariable(name = "posts") Long postsId,
                                               @RequestBody PostForm form) {
 
         UserVo vo = provider.getUserVo(token);
-        return ResponseEntity.ok(postsService.modifyPosts(vo.getId(), postsId, form));
+        postsService.modifyPosts(vo.getId(), postsId, form);
+        return ResponseEntity.ok().build();
     }
 
     @DeleteMapping("{posts}")
-    public ResponseEntity<String> postsRemove(@RequestHeader(name = "X-AUTH-TOKEN") String token,
+    public ResponseEntity postsRemove(@RequestHeader(name = "X-AUTH-TOKEN") String token,
                                               @PathVariable(name = "posts") Long postsId) {
 
         UserVo vo = provider.getUserVo(token);
-        return ResponseEntity.ok(postsService.removePosts(vo.getId(), postsId));
+        postsService.removePosts(vo.getId(), postsId);
+        return ResponseEntity.ok().build();
     }
 }

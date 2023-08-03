@@ -28,7 +28,7 @@ public class PostsService {
 
 
     // address 테이블 하나 만들어서 하는 방법도 생각
-    public String addAddressPosts(PostForm form, String email, AddressType type) {
+    public void addAddressPosts(PostForm form, String email, AddressType type) {
         User user = userRepository.findByEmail(email)
                 .orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_USER));
 
@@ -37,7 +37,6 @@ public class PostsService {
         );
 
         postRepository.save(Post.from(form, user, address));
-        return "게시글이 등록되었습니다.";
     }
 
     public List<PostDto> listAddressPosts(String email, AddressType type) {
@@ -56,7 +55,7 @@ public class PostsService {
                 .map(PostDto::from)
                 .collect(Collectors.toList());
     }
-    public String modifyPostsStatus(Long postId, Long id) {
+    public void modifyPostsStatus(Long postId, Long id) {
 
         User user = userRepository.findById(id)
                 .orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_USER));
@@ -68,12 +67,9 @@ public class PostsService {
             throw new CustomException(ErrorCode.NOT_PERMITTED_CONNECT);
         }
         Post.closePost(PostStatus.RECRUITMENT_COMPLETE);
-
-        return "약속이 마감되었습니다.";
     }
 
-
-    public String modifyPosts(Long userId, Long postsId, PostForm form) {
+    public void modifyPosts(Long userId, Long postsId, PostForm form) {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_USER));
 
@@ -84,10 +80,9 @@ public class PostsService {
         }
 
         Post.modify(form);
-        return "게시글이 수정되었습니다.";
     }
 
-    public String removePosts(Long userId, Long postsId) {
+    public void removePosts(Long userId, Long postsId) {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_USER));
 
@@ -97,7 +92,6 @@ public class PostsService {
             throw new CustomException(ErrorCode.NOT_PERMITTED_CONNECT);
         }
         postRepository.delete(post);
-        return "게시글이 삭제되었습니다.";
     }
 
     private Optional<Address> getAddress(AddressType type, User user) {

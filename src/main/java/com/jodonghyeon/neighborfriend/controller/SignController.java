@@ -18,12 +18,12 @@ public class SignController {
     private final SignApplication signApplication;
 
     @PostMapping("/signup")
-    public ResponseEntity<String> signUpUser(@RequestBody SignUpForm form) throws UnknownHostException {
+    public ResponseEntity signUpUser(@RequestBody SignUpForm form) throws UnknownHostException {
         return ResponseEntity.ok(signApplication.generalSignUp(form));
     }
 
     @PostMapping("/signin")
-    public ResponseEntity<String> signInUser(@RequestBody SignInForm form) {
+    public ResponseEntity signInUser(@RequestBody SignInForm form) {
         return ResponseEntity.ok(signApplication.userLoginToken(form));
     }
 

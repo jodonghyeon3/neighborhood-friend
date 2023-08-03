@@ -28,7 +28,7 @@ public class ReviewService {
     private final PostRepository postRepository;
     private final ParticipateRepository participateRepository;
 
-    public String addReview(Long id, Long postId, ReviewForm form) {
+    public void addReview(Long id, Long postId, ReviewForm form) {
         User user = userRepository.findById(id).orElseThrow(
                 () -> new CustomException(ErrorCode.NOT_FOUND_USER)
         );
@@ -62,7 +62,5 @@ public class ReviewService {
             postsUser.setRate(((rate * ratePeople) + form.getRating()) / (ratePeople + 1));
 
         }
-
-        return "리뷰 작성이 완료되었습니다.";
     }
 }
