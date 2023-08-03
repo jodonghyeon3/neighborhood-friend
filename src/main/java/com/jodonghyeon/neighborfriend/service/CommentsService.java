@@ -28,7 +28,7 @@ public class CommentsService {
 
     private final PostRepository postRepository;
 
-    public String addComments(Long postId, String email, CommentsForm form) {
+    public void addComments(Long postId, String email, CommentsForm form) {
         User user = userRepository.findByEmail(email)
                 .orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_USER));
 
@@ -40,8 +40,6 @@ public class CommentsService {
         }
         Comments from = Comments.from(form, user.getName(), post);
         commentsRepository.save(from);
-
-        return "댓글이 등록되었습니다.";
     }
 
     public List<CommentsDTO> listComments(String email, Long postId) {
@@ -56,7 +54,7 @@ public class CommentsService {
                 .stream().map(CommentsDTO::from).collect(Collectors.toList());
     }
 
-    public String modifyComments(Long commentId, String email, String form) {
+    public void modifyComments(Long commentId, String email, String form) {
         Comments comments = commentsRepository.findById(commentId).orElseThrow(
                 () -> new CustomException(ErrorCode.NOT_FOUND_COMMENT)
         );
@@ -66,13 +64,9 @@ public class CommentsService {
         }
 
         Comments.update(form);
-
-        return "댓글이 수정되었습니다.";
-
-
     }
 
-    public String removeComments(String email, Long id, Long commentId) {
+    public void removeComments(String email, Long id, Long commentId) {
         User user = userRepository.findByEmailAndId(email, id).orElseThrow(
                 () -> new CustomException(ErrorCode.NOT_FOUND_USER)
         );
@@ -86,6 +80,5 @@ public class CommentsService {
         }
 
         commentsRepository.delete(comments);
-        return "댓글이 삭제되었습니다.";
     }
 }

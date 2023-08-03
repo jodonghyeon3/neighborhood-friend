@@ -24,19 +24,16 @@ public class UserInfoService {
                 .findFirst();
     }
 
-    public String addFirstAddress(Long id, String email) throws UnknownHostException {
+    public void addFirstAddress(Long id, String email) throws UnknownHostException {
         User u = userRepository.findById(id).stream()
                 .filter(user -> user.getEmail().equals(email))
                 .findFirst().get();
 
         Address city = geoService.findCity();
         u.setFirstAddress(city);
-        return "주소를 정상적으로 등록하였습니다.";
-
-
     }
 
-    public String addSecondAddress(Long id, String email) throws UnknownHostException {
+    public void addSecondAddress(Long id, String email) throws UnknownHostException {
         User u = userRepository.findById(id).stream()
                 .filter(user -> user.getEmail().equals(email))
                 .findFirst().get();
@@ -44,6 +41,5 @@ public class UserInfoService {
         Address city = geoService.findCity();
         u.setSecondAddress(city);
 
-        return "주소를 정상적으로 등록하였습니다.";
     }
 }

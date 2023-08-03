@@ -12,38 +12,41 @@ import java.util.List;
 
 @RequiredArgsConstructor
 @RestController
-@RequestMapping("/address/promise")
+@RequestMapping("/posts")
 public class PromiseController {
 
     private final JwtAuthenticationProvider provider;
     private final PromiseService promiseService;
 
-    @PostMapping
-    public ResponseEntity<String> promiseAdd(@RequestHeader(name = "X-AUTH-TOKEN") String token,
-                                             @RequestParam(name = "postId") Long postId) {
+    @PostMapping("{postId}/promise")
+    public ResponseEntity promiseAdd(@RequestHeader(name = "X-AUTH-TOKEN") String token,
+                                             @PathVariable(name = "postId") Long postId) {
         UserVo vo = provider.getUserVo(token);
-        return ResponseEntity.ok(promiseService.applyPromiseByPostId(vo.getEmail(), postId));
+        promiseService.applyPromiseByPostId(vo.getEmail(), postId);
+        return ResponseEntity.ok().build();
     }
 
-    @GetMapping
+    @GetMapping("{postId}/promise")
     public ResponseEntity<List<ParticipateDTO>> promiseList(@RequestHeader(name = "X-AUTH-TOKEN") String token,
-                                                            @RequestParam(name = "postId") Long postId) {
+                                                            @PathVariable(name = "postId") Long postId) {
         UserVo vo = provider.getUserVo(token);
         return ResponseEntity.ok(promiseService.applyUserListByPostId(vo.getEmail(), postId));
     }
 
-    @PutMapping("/status")
-    public ResponseEntity<String> promiseApprove(@RequestHeader(name = "X-AUTH-TOKEN") String token,
+    @PutMapping("/promise/status")
+    public ResponseEntity promiseApprove(@RequestHeader(name = "X-AUTH-TOKEN") String token,
                                                  @RequestParam(name = "email") String email) {
         UserVo vo = provider.getUserVo(token);
-        return ResponseEntity.ok(promiseService.approveUser(vo.getEmail(), email));
+        promiseService.approveUser(vo.getEmail(), email);
+        return ResponseEntity.ok().build();
     }
 
-    @PutMapping("/cancel")
-    public ResponseEntity<String> promiseCancel(@RequestHeader(name = "X-AUTH-TOKEN") String token,
+    @PutMapping("/promise/cancel")
+    public ResponseEntity promiseCancel(@RequestHeader(name = "X-AUTH-TOKEN") String token,
                                                 @RequestParam(name = "email") String email) {
         UserVo vo = provider.getUserVo(token);
-        return ResponseEntity.ok(promiseService.cancelUser(vo.getEmail(), email));
+        promiseService.cancelUser(vo.getEmail(), email);
+        return ResponseEntity.ok().build();
     }
 
 

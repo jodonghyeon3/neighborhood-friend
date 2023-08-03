@@ -32,15 +32,17 @@ public class UserInfoController {
     }
 
     @PutMapping("/first-address")
-    public ResponseEntity<String> firstAddressAdd(@RequestHeader(name = "X-AUTH-TOKEN") String token) throws UnknownHostException {
+    public ResponseEntity firstAddressAdd(@RequestHeader(name = "X-AUTH-TOKEN") String token) throws UnknownHostException {
         UserVo vo = provider.getUserVo(token);
-        return ResponseEntity.ok(userInfoService.addFirstAddress(vo.getId(), vo.getEmail()));
+        userInfoService.addFirstAddress(vo.getId(), vo.getEmail());
+        return ResponseEntity.ok().build();
     }
 
     @PutMapping("/second-address")
-    public ResponseEntity<String> secondAddressAdd(@RequestHeader(name = "X-AUTH-TOKEN") String token) throws UnknownHostException {
+    public ResponseEntity secondAddressAdd(@RequestHeader(name = "X-AUTH-TOKEN") String token) throws UnknownHostException {
         UserVo vo = provider.getUserVo(token);
-        return ResponseEntity.ok(userInfoService.addSecondAddress(vo.getId(), vo.getEmail()));
+        userInfoService.addSecondAddress(vo.getId(), vo.getEmail());
+        return ResponseEntity.ok().build();
     }
 
 

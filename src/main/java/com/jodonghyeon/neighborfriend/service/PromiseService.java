@@ -28,7 +28,7 @@ public class PromiseService {
     private final UserRepository userRepository;
     private final PostRepository postRepository;
 
-    public String applyPromiseByPostId(String email, Long id) {
+    public void applyPromiseByPostId(String email, Long id) {
 
         User user = userRepository.findByEmail(email)
                 .orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_USER));
@@ -41,7 +41,6 @@ public class PromiseService {
         }
 
         participateRepository.save(Participate.from(user, post));
-        return "약속 신청이 완료되었습니다.";
     }
 
     public List<ParticipateDTO> applyUserListByPostId(String email, Long emailId) {
@@ -65,7 +64,7 @@ public class PromiseService {
 
     }
 
-    public String approveUser(String userEmail, String partiEmail) {
+    public void approveUser(String userEmail, String partiEmail) {
         User user = userRepository.findByEmail(userEmail)
                 .orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_USER));
 
@@ -77,9 +76,8 @@ public class PromiseService {
         }
 
         Participate.changeStatus(participate, ParticipateStatus.APPROVE);
-        return "수락 되었습니다.";
     }
-    public String cancelUser(String userEmail, String partiEmail) {
+    public void cancelUser(String userEmail, String partiEmail) {
         User user = userRepository.findByEmail(userEmail)
                 .orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_USER));
 
@@ -91,6 +89,5 @@ public class PromiseService {
         }
 
         Participate.changeStatus(participate, ParticipateStatus.CANCEL);
-        return "거절 하였습니다.";
     }
 }
