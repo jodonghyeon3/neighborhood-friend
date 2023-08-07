@@ -17,7 +17,7 @@ import java.util.Locale;
 @NoArgsConstructor
 @AllArgsConstructor
 @AuditOverride(forClass = BaseEntity.class)
-public class User extends BaseEntity{
+public class User extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -37,7 +37,6 @@ public class User extends BaseEntity{
     private Gender gender;
 
 
-
     @Embedded
     @AttributeOverrides({
             @AttributeOverride(name = "address", column = @Column(name = "first_address")),
@@ -54,10 +53,10 @@ public class User extends BaseEntity{
     })
     private Address secondAddress;
 
-    public static User from(SignUpForm form) {
+    public static User from(SignUpForm form, String password) {
         return User.builder()
                 .email(form.getEmail().toLowerCase(Locale.ROOT))
-                .password(form.getPassword())
+                .password(password)
                 .name(form.getName())
                 .phone(form.getPhone())
                 .birth(form.getBirth())

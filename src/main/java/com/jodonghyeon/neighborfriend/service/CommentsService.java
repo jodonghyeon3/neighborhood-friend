@@ -66,8 +66,8 @@ public class CommentsService {
         Comments.update(form);
     }
 
-    public void removeComments(String email, Long id, Long commentId) {
-        User user = userRepository.findByEmailAndId(email, id).orElseThrow(
+    public void removeComments(String email, Long commentId) {
+        User user = userRepository.findByEmail(email).orElseThrow(
                 () -> new CustomException(ErrorCode.NOT_FOUND_USER)
         );
 

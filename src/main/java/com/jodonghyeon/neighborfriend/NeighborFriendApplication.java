@@ -9,7 +9,6 @@ import java.util.Collections;
 
 @SpringBootApplication
 @EnableJpaAuditing
-@EnableJpaRepositories
 public class NeighborFriendApplication {
 
     public static void main(String[] args) {

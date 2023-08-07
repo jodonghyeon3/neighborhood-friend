@@ -28,8 +28,8 @@ public class ReviewService {
     private final PostRepository postRepository;
     private final ParticipateRepository participateRepository;
 
-    public void addReview(Long id, Long postId, ReviewForm form) {
-        User user = userRepository.findById(id).orElseThrow(
+    public void addReview(String email, Long postId, ReviewForm form) {
+        User user = userRepository.findByEmail(email).orElseThrow(
                 () -> new CustomException(ErrorCode.NOT_FOUND_USER)
         );
 

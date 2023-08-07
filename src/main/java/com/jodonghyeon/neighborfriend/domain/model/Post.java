@@ -2,7 +2,10 @@ package com.jodonghyeon.neighborfriend.domain.model;
 
 import com.jodonghyeon.neighborfriend.domain.form.PostForm;
 import com.jodonghyeon.neighborfriend.domain.type.PostStatus;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 import org.hibernate.envers.AuditOverride;
 
 import javax.persistence.*;
@@ -25,9 +28,6 @@ public class Post extends BaseEntity {
     private String detail;
     private String place;
     private LocalDateTime time;
-
-    private Double lat;
-    private Double lon;
 
     // 어느주소인지
 
