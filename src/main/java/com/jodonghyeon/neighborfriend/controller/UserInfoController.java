@@ -1,15 +1,14 @@
 package com.jodonghyeon.neighborfriend.controller;
 
-import com.jodonghyeon.neighborfriend.config.JwtAuthenticationProvider;
-import com.jodonghyeon.neighborfriend.domain.common.UserVo;
 import com.jodonghyeon.neighborfriend.domain.dto.UserDto;
-import com.jodonghyeon.neighborfriend.domain.model.User;
-import com.jodonghyeon.neighborfriend.exception.CustomException;
-import com.jodonghyeon.neighborfriend.exception.ErrorCode;
 import com.jodonghyeon.neighborfriend.service.UserInfoService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.security.core.Authentication;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.net.UnknownHostException;
 
@@ -18,30 +17,24 @@ import java.net.UnknownHostException;
 @RequestMapping("/user/detail")
 public class UserInfoController {
 
-    private final JwtAuthenticationProvider provider;
     private final UserInfoService userInfoService;
 
     @GetMapping
-    public ResponseEntity<UserDto> userDetails(@RequestHeader(name = "X-AUTH-TOKEN") String token) {
-        UserVo vo = provider.getUserVo(token);
-
-        User u = userInfoService.findByIdAndEmail(vo.getId(), vo.getEmail())
-                .orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_USER));
-
-        return ResponseEntity.ok(UserDto.from(u));
+    public ResponseEntity<UserDto> userDetails(Authentication authentication) {
+        return ResponseEntity.ok().body(userInfoService.detailUserInfo(authentication.getName()));
     }
 
     @PutMapping("/first-address")
-    public ResponseEntity firstAddressAdd(@RequestHeader(name = "X-AUTH-TOKEN") String token) throws UnknownHostException {
-        UserVo vo = provider.getUserVo(token);
-        userInfoService.addFirstAddress(vo.getId(), vo.getEmail());
+    public ResponseEntity firstAddressAdd(Authentication authentication) throws UnknownHostException {
+
+        userInfoService.addFirstAddress(authentication.getName());
         return ResponseEntity.ok().build();
     }
 
     @PutMapping("/second-address")
-    public ResponseEntity secondAddressAdd(@RequestHeader(name = "X-AUTH-TOKEN") String token) throws UnknownHostException {
-        UserVo vo = provider.getUserVo(token);
-        userInfoService.addSecondAddress(vo.getId(), vo.getEmail());
+    public ResponseEntity secondAddressAdd(Authentication authentication) throws UnknownHostException {
+
+        userInfoService.addSecondAddress(authentication.getName());
         return ResponseEntity.ok().build();
     }
 

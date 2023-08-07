@@ -77,6 +77,7 @@ public class PromiseService {
 
         Participate.changeStatus(participate, ParticipateStatus.APPROVE);
     }
+
     public void cancelUser(String userEmail, String partiEmail) {
         User user = userRepository.findByEmail(userEmail)
                 .orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_USER));

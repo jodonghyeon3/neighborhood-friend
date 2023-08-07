@@ -16,6 +16,7 @@ public enum ErrorCode {
     NOT_FOUND_ADDRESS(HttpStatus.BAD_REQUEST, "주소를 등록후 이용하세요."),
     NOT_FOUND_COMMENT(HttpStatus.BAD_REQUEST, "댓글이 존재하지 않습니다."),
     NOT_FOUND_PROMISE(HttpStatus.BAD_REQUEST, "약속이 존재하지 않습니다."),
+    INVALID_PASSWORD(HttpStatus.BAD_REQUEST, "비밀번호가 틀렸습니다."),
     NOT_PERMITTED_CONNECT(HttpStatus.BAD_REQUEST,"접근 권한이 없습니다." );
 
     private final HttpStatus status;

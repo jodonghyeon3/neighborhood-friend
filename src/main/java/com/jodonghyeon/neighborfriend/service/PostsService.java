@@ -55,9 +55,10 @@ public class PostsService {
                 .map(PostDto::from)
                 .collect(Collectors.toList());
     }
-    public void modifyPostsStatus(Long postId, Long id) {
 
-        User user = userRepository.findById(id)
+    public void modifyPostsStatus(Long postId, String email) {
+
+        User user = userRepository.findByEmail(email)
                 .orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_USER));
 
         Post post = postRepository.findById(postId)
@@ -69,8 +70,8 @@ public class PostsService {
         Post.closePost(PostStatus.RECRUITMENT_COMPLETE);
     }
 
-    public void modifyPosts(Long userId, Long postsId, PostForm form) {
-        User user = userRepository.findById(userId)
+    public void modifyPosts(String email, Long postsId, PostForm form) {
+        User user = userRepository.findByEmail(email)
                 .orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_USER));
 
         Post post = postRepository.findById(postsId)
@@ -82,8 +83,8 @@ public class PostsService {
         Post.modify(form);
     }
 
-    public void removePosts(Long userId, Long postsId) {
-        User user = userRepository.findById(userId)
+    public void removePosts(String email, Long postsId) {
+        User user = userRepository.findByEmail(email)
                 .orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_USER));
 
         Post post = postRepository.findById(postsId)

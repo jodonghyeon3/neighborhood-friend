@@ -1,13 +1,12 @@
 package com.jodonghyeon.neighborfriend.controller;
 
-import com.jodonghyeon.neighborfriend.config.JwtAuthenticationProvider;
-import com.jodonghyeon.neighborfriend.domain.common.UserVo;
 import com.jodonghyeon.neighborfriend.domain.dto.PostDto;
 import com.jodonghyeon.neighborfriend.domain.form.PostForm;
 import com.jodonghyeon.neighborfriend.domain.type.AddressType;
 import com.jodonghyeon.neighborfriend.service.PostsService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -16,49 +15,44 @@ import java.util.List;
 @RestController
 @RequestMapping("/posts")
 public class PostController {
-    private final JwtAuthenticationProvider provider;
     private final PostsService postsService;
 
     @PostMapping
-    public ResponseEntity postsAdd(@RequestHeader(name = "X-AUTH-TOKEN") String token,
-                                           @RequestBody PostForm form,
-                                           @RequestParam(name = "address") AddressType type) {
-        UserVo vo = provider.getUserVo(token);
-        postsService.addAddressPosts(form, vo.getEmail(), type);
+    public ResponseEntity postsAdd(Authentication authentication,
+                                   @RequestBody PostForm form,
+                                   @RequestParam(name = "address") AddressType type) {
+
+        postsService.addAddressPosts(form, authentication.getName(), type);
         return ResponseEntity.ok().build();
     }
 
     @GetMapping
-    public ResponseEntity<List<PostDto>> postsList(@RequestHeader(name = "X-AUTH-TOKEN") String token,
+    public ResponseEntity<List<PostDto>> postsList(Authentication authentication,
                                                    @RequestParam(name = "address") AddressType type) {
-        UserVo vo = provider.getUserVo(token);
-        return ResponseEntity.ok(postsService.listAddressPosts(vo.getEmail(), type));
+        return ResponseEntity.ok(postsService.listAddressPosts(authentication.getName(), type));
     }
 
     @PutMapping("/status")
-    public ResponseEntity postsClose(@RequestHeader(name = "X-AUTH-TOKEN") String token,
+    public ResponseEntity postsClose(Authentication authentication,
                                              @RequestParam(name = "postId") Long postId) {
-        UserVo vo = provider.getUserVo(token);
-        postsService.modifyPostsStatus(postId, vo.getId());
+        postsService.modifyPostsStatus(postId, authentication.getName());
         return ResponseEntity.ok().build();
     }
 
     @PutMapping("{posts}")
-    public ResponseEntity postsModify(@RequestHeader(name = "X-AUTH-TOKEN") String token,
+    public ResponseEntity postsModify(Authentication authentication,
                                               @PathVariable(name = "posts") Long postsId,
                                               @RequestBody PostForm form) {
 
-        UserVo vo = provider.getUserVo(token);
-        postsService.modifyPosts(vo.getId(), postsId, form);
+        postsService.modifyPosts(authentication.getName(), postsId, form);
         return ResponseEntity.ok().build();
     }
 
     @DeleteMapping("{posts}")
-    public ResponseEntity postsRemove(@RequestHeader(name = "X-AUTH-TOKEN") String token,
+    public ResponseEntity postsRemove(Authentication authentication,
                                               @PathVariable(name = "posts") Long postsId) {
 
-        UserVo vo = provider.getUserVo(token);
-        postsService.removePosts(vo.getId(), postsId);
+        postsService.removePosts(authentication.getName(), postsId);
         return ResponseEntity.ok().build();
     }
 }
