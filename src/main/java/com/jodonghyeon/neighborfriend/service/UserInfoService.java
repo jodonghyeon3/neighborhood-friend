@@ -21,7 +21,7 @@ public class UserInfoService {
     private final GeoService geoService;
     private final UserRepository userRepository;
 
-    public UserDto detailUserInfo(String email) {
+    public UserDto getDetailUserInfo(String email) {
         User user = userRepository.findByEmail(email).orElseThrow(
                 () -> new CustomException(ErrorCode.NOT_FOUND_USER)
         );

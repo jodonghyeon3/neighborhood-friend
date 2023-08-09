@@ -22,15 +22,12 @@ import java.util.stream.Collectors;
 @Service
 @Transactional
 @RequiredArgsConstructor
-public class PostsService {
+public class PostService {
     private final PostRepository postRepository;
     private final UserRepository userRepository;
 
-
-    // address 테이블 하나 만들어서 하는 방법도 생각
-    public void addAddressPosts(PostForm form, String email, AddressType type) {
-        User user = userRepository.findByEmail(email)
-                .orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_USER));
+    public void addAddressPost(PostForm form, String email, AddressType type) {
+        User user = getUser(email);
 
         Address address = getAddress(type, user).orElseThrow(
                 () -> new CustomException(ErrorCode.NOT_FOUND_ADDRESS)
@@ -39,16 +36,14 @@ public class PostsService {
         postRepository.save(Post.from(form, user, address));
     }
 
-    public List<PostDto> listAddressPosts(String email, AddressType type) {
-        User user = userRepository.findByEmail(email)
-                .orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_USER));
+    public List<PostDto> getListAddressPost(String email, AddressType type) {
+        User user = getUser(email);
 
         Address address = getAddress(type, user).orElseThrow(
                 () -> new CustomException(ErrorCode.NOT_FOUND_ADDRESS)
         );
 
-        List<Post> posts = postRepository.findByAddress(address.getAddress())
-                .orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_POST));
+        List<Post> posts = postRepository.findByAddress(address.getAddress());
 
         return posts.stream()
                 .filter(post -> !post.getStatus().equals(PostStatus.RECRUITMENT_COMPLETE))
@@ -56,50 +51,54 @@ public class PostsService {
                 .collect(Collectors.toList());
     }
 
-    public void modifyPostsStatus(Long postId, String email) {
+    public void modifyPostStatus(Long postId, String email) {
 
-        User user = userRepository.findByEmail(email)
-                .orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_USER));
+        User user = getUser(email);
+        Post post = getPost(postId);
 
-        Post post = postRepository.findById(postId)
-                .orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_POST));
-
-        if (post.getUser().equals(user)) {
+        if (!post.getUser().equals(user)) {
             throw new CustomException(ErrorCode.NOT_PERMITTED_CONNECT);
         }
+
         Post.closePost(PostStatus.RECRUITMENT_COMPLETE);
     }
 
-    public void modifyPosts(String email, Long postsId, PostForm form) {
-        User user = userRepository.findByEmail(email)
-                .orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_USER));
+    public void modifyPost(String email, Long postsId, PostForm form) {
+        User user = getUser(email);
+        Post post = getPost(postsId);
 
-        Post post = postRepository.findById(postsId)
-                .orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_POST));
-        if (post.getUser().equals(user)) {
+        if (!post.getUser().equals(user)) {
             throw new CustomException(ErrorCode.NOT_PERMITTED_CONNECT);
         }
 
         Post.modify(form);
     }
 
-    public void removePosts(String email, Long postsId) {
-        User user = userRepository.findByEmail(email)
-                .orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_USER));
+    public void removePost(String email, Long postsId) {
+        User user = getUser(email);
+        Post post = getPost(postsId);
 
-        Post post = postRepository.findById(postsId)
-                .orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_POST));
-        if (post.getUser().equals(user)) {
+        if (!post.getUser().equals(user)) {
             throw new CustomException(ErrorCode.NOT_PERMITTED_CONNECT);
         }
         postRepository.delete(post);
     }
 
+    private Post getPost(Long postsId) {
+        return postRepository.findById(postsId)
+                .orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_POST));
+    }
+
     private Optional<Address> getAddress(AddressType type, User user) {
         if (type == AddressType.FIRSTADDRESS) {
-            return Optional.of(user.getFirstAddress());
+            return Optional.ofNullable(user.getFirstAddress());
         } else {
-            return Optional.of(user.getSecondAddress());
+            return Optional.ofNullable(user.getSecondAddress());
         }
+    }
+
+    private User getUser(String email) {
+        return userRepository.findByEmail(email)
+                .orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_USER));
     }
 }

@@ -13,13 +13,13 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RequiredArgsConstructor
 @RestController
-@RequestMapping("/posts/{postsId}/review")
+@RequestMapping("/post/{postId}/review")
 public class ReviewController {
     private final ReviewService reviewService;
 
     @PostMapping()
     public ResponseEntity reviewAdd(Authentication authentication,
-                                    @PathVariable(name = "postsId") Long postId,
+                                    @PathVariable(name = "postId") Long postId,
                                     @RequestBody ReviewForm form) {
 
         reviewService.addReview(authentication.getName(), postId, form);
