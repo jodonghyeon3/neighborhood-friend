@@ -10,6 +10,6 @@ import java.util.Optional;
 
 @Repository
 public interface PostRepository extends JpaRepository<Post, Long> {
-    Optional<List<Post>> findByAddress(String address);
+    List<Post> findByAddress(String address);
     Optional<Post> findByIdAndUserId(Long postId, Long userId);
 }

@@ -28,7 +28,7 @@ public class CommentsService {
 
     private final PostRepository postRepository;
 
-    public void addComments(Long postId, String email, CommentsForm form) {
+    public void addComment(Long postId, String email, CommentsForm form) {
         User user = userRepository.findByEmail(email)
                 .orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_USER));
 
@@ -42,7 +42,7 @@ public class CommentsService {
         commentsRepository.save(from);
     }
 
-    public List<CommentsDTO> listComments(String email, Long postId) {
+    public List<CommentsDTO> getListComment(String email, Long postId) {
         User user = userRepository.findByEmail(email)
                 .orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_USER));
 
@@ -54,7 +54,7 @@ public class CommentsService {
                 .stream().map(CommentsDTO::from).collect(Collectors.toList());
     }
 
-    public void modifyComments(Long commentId, String email, String form) {
+    public void modifyComment(Long commentId, String email, String form) {
         Comments comments = commentsRepository.findById(commentId).orElseThrow(
                 () -> new CustomException(ErrorCode.NOT_FOUND_COMMENT)
         );
@@ -66,7 +66,7 @@ public class CommentsService {
         Comments.update(form);
     }
 
-    public void removeComments(String email, Long commentId) {
+    public void removeComment(String email, Long commentId) {
         User user = userRepository.findByEmail(email).orElseThrow(
                 () -> new CustomException(ErrorCode.NOT_FOUND_USER)
         );

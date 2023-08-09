@@ -12,36 +12,36 @@ import java.util.List;
 
 @RequiredArgsConstructor
 @RestController
-@RequestMapping("/posts")
+@RequestMapping("/post")
 public class CommentsController {
     private final CommentsService commentsService;
 
-    @PostMapping("/{posts}/comments")
-    public ResponseEntity commentsAdd(Authentication authentication,
-                                      @PathVariable(name = "posts") Long postId,
-                                      @RequestBody CommentsForm form) {
-        commentsService.addComments(postId, authentication.getName(), form);
+    @PostMapping("/{post}/comment")
+    public ResponseEntity commentAdd(Authentication authentication,
+                                     @PathVariable(name = "post") Long postId,
+                                     @RequestBody CommentsForm form) {
+        commentsService.addComment(postId, authentication.getName(), form);
         return ResponseEntity.ok().build();
     }
 
-    @GetMapping("/{posts}/comments")
-    public ResponseEntity<List<CommentsDTO>> commentList(Authentication authentication,
-                                                         @PathVariable(name = "posts") Long postId) {
-        return ResponseEntity.ok(commentsService.listComments(authentication.getName(), postId));
+    @GetMapping("/{post}/comment")
+    public ResponseEntity<List<CommentsDTO>> commentListGet(Authentication authentication,
+                                                            @PathVariable(name = "post") Long postId) {
+        return ResponseEntity.ok(commentsService.getListComment(authentication.getName(), postId));
     }
 
-    @PutMapping("/comments/{comment}")
+    @PutMapping("/comment/{comment}")
     public ResponseEntity commentModify(Authentication authentication,
                                         @PathVariable(name = "comment") Long commentId,
                                         @RequestBody String form) {
-        commentsService.modifyComments(commentId, authentication.getName(), form);
+        commentsService.modifyComment(commentId, authentication.getName(), form);
         return ResponseEntity.ok().build();
     }
 
-    @DeleteMapping("/comments/{comment}")
+    @DeleteMapping("/comment/{comment}")
     public ResponseEntity commentRemove(Authentication authentication,
                                         @PathVariable(name = "comment") Long commentId) {
-        commentsService.removeComments(authentication.getName(), commentId);
+        commentsService.removeComment(authentication.getName(), commentId);
         return ResponseEntity.ok().build();
     }
 }

@@ -21,7 +21,7 @@ public class UserInfoController {
 
     @GetMapping
     public ResponseEntity<UserDto> userDetails(Authentication authentication) {
-        return ResponseEntity.ok().body(userInfoService.detailUserInfo(authentication.getName()));
+        return ResponseEntity.ok().body(userInfoService.getDetailUserInfo(authentication.getName()));
     }
 
     @PutMapping("/first-address")
