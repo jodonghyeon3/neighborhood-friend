@@ -41,9 +41,7 @@ public class ReviewService {
             throw new CustomException(ErrorCode.NOT_FINISHED_PROMISE);
         }
 
-        List<Promise> promises = participateRepository.findByPostId(postId).orElseThrow(
-                () -> new CustomException(ErrorCode.NOT_FOUND_PROMISE)
-        );
+        List<Promise> promise = participateRepository.findByPostId(postId);
 
         participateRepository.findByUserEmailAndUserNameAndStatus(user.getEmail(), user.getName(), ParticipateStatus.APPROVE).orElseThrow(
                 () -> new CustomException(ErrorCode.NOT_PERMITTED_CONNECT)
