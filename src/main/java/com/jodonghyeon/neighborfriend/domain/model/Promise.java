@@ -15,7 +15,7 @@ import javax.persistence.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @AuditOverride(forClass = BaseEntity.class)
-public class Participate extends BaseEntity {
+public class Promise extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -32,8 +32,8 @@ public class Participate extends BaseEntity {
     private Post post;
 
 
-    public static Participate from(User user, Post post) {
-        return Participate.builder()
+    public static Promise from(User user, Post post) {
+        return Promise.builder()
                 .userName(user.getName())
                 .userEmail(user.getEmail())
                 .status(ParticipateStatus.WAIT)
@@ -41,8 +41,8 @@ public class Participate extends BaseEntity {
                 .build();
     }
 
-    public static Participate changeStatus(Participate participate, ParticipateStatus status) {
-        return participate.builder()
+    public static Promise changeStatus(Promise promise, ParticipateStatus status) {
+        return promise.builder()
                 .status(status)
                 .build();
     }
