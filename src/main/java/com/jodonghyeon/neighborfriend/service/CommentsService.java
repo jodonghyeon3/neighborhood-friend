@@ -29,8 +29,7 @@ public class CommentsService {
     private final PostRepository postRepository;
 
     public void addComment(Long postId, String email, CommentsForm form) {
-        User user = userRepository.findByEmail(email)
-                .orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_USER));
+        User user = getUser(email);
 
         Post post = postRepository.findById(postId)
                 .orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_POST));
@@ -42,19 +41,31 @@ public class CommentsService {
         commentsRepository.save(from);
     }
 
-    public List<CommentsDTO> getListComment(String email, Long postId) {
-        User user = userRepository.findByEmail(email)
+    private User getUser(String email) {
+        return userRepository.findByEmail(email)
                 .orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_USER));
+    }
 
-        Post post = postRepository.findById(postId)
-                .orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_POST));
+    public List<CommentsDTO> getListComment(String email, Long postId) {
+        getUser(email);
+
+        extracted(postId);
 
         return commentsRepository.findByPostId(postId)
                 .orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_COMMENT))
                 .stream().map(CommentsDTO::from).collect(Collectors.toList());
     }
 
-    public void modifyComment(Long commentId, String email, String form) {
+    private void extracted(Long postId) {
+        postRepository.findById(postId)
+                .orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_POST));
+    }
+
+    public void modifyComment(Long commentId, String email, String form, Long postId) {
+        getUser(email);
+
+        extracted(postId);
+
         Comments comments = commentsRepository.findById(commentId).orElseThrow(
                 () -> new CustomException(ErrorCode.NOT_FOUND_COMMENT)
         );
@@ -66,10 +77,10 @@ public class CommentsService {
         Comments.update(form);
     }
 
-    public void removeComment(String email, Long commentId) {
-        User user = userRepository.findByEmail(email).orElseThrow(
-                () -> new CustomException(ErrorCode.NOT_FOUND_USER)
-        );
+    public void removeComment(String email, Long commentId, Long postId) {
+        User user = getUser(email);
+
+        extracted(postId);
 
         Comments comments = commentsRepository.findById(commentId).orElseThrow(
                 () -> new CustomException(ErrorCode.NOT_FOUND_COMMENT)

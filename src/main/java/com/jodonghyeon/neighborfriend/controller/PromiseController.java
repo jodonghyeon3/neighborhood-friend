@@ -35,10 +35,11 @@ public class PromiseController {
     @PutMapping("/{postId}/status")
     public ResponseEntity promiseModify(Authentication authentication,
                                         @PathVariable(name = "postId") Long postId,
-                                         @RequestParam(name = "email") String userEmail,
-                                         ParticipateStatus status) {
+                                        @RequestParam(name = "email") String userEmail,
+                                        ParticipateStatus status) {
 
         promiseService.modifyPromise(authentication.getName(), userEmail, postId, status);
+
         return ResponseEntity.ok().build();
     }
 }

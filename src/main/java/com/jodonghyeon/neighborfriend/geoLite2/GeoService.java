@@ -72,7 +72,6 @@ public class GeoService {
     public Address findCity() throws UnknownHostException {
 //        InetAddress ipAddress = getIpAddress();
         InetAddress ipAddress = InetAddress.getByName("221.160.154.121");
-
         CityResponse response = geoReader.city(ipAddress);
 
         Subdivision subdivision = response.getMostSpecificSubdivision();
@@ -93,14 +92,12 @@ public class GeoService {
         try {
             String coordinatesystem = "WGS84";
             obj = new URL(url + "&input_coord=" + coordinatesystem);
-
             HttpURLConnection con = (HttpURLConnection) obj.openConnection();
             con.setRequestMethod("GET");
             con.setRequestProperty("Authorization", "KakaoAK " + kakaoKey);
             con.setRequestProperty("content-type", "application/json");
             con.setDoOutput(true);
             con.setUseCaches(false);
-
             Charset charset = Charset.forName("UTF-8");
             BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream(), charset));
             String inputLine;

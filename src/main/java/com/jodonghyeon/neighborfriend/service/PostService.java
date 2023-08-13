@@ -27,6 +27,7 @@ public class PostService {
     private final UserRepository userRepository;
 
     public void addAddressPost(PostForm form, String email, AddressType type) {
+
         User user = getUser(email);
 
         Address address = getAddress(type, user).orElseThrow(
