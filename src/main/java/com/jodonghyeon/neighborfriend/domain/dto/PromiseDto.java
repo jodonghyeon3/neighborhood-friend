@@ -1,7 +1,9 @@
 package com.jodonghyeon.neighborfriend.domain.dto;
 
+import com.jodonghyeon.neighborfriend.domain.model.Promise;
 import com.jodonghyeon.neighborfriend.domain.model.User;
 import com.jodonghyeon.neighborfriend.domain.type.Gender;
+import com.jodonghyeon.neighborfriend.domain.type.PromiseStatus;
 import lombok.Builder;
 import lombok.Getter;
 
@@ -19,13 +21,20 @@ public class PromiseDto {
 
     private Double rate;
 
-//    private ParticipateStatus status;
+    private PromiseStatus status;
     // 상태도 추가해야됨
 
-    public static PromiseDto from(User user) {
+
+    public static PromiseDto fromPromiseEntity(Promise promise) {
         return PromiseDto.builder()
-                .userEmail(user.getEmail())
-                .userName(user.getName())
+                .status(promise.getStatus())
+                .userName(promise.getUserName())
+                .userEmail(promise.getUserEmail())
+                .build();
+    }
+
+    public static PromiseDto fromUser(PromiseDto dto, User user) {
+        return PromiseDto.builder()
                 .age(user.getAge())
                 .gender(user.getGender())
                 .rate(user.getRate())

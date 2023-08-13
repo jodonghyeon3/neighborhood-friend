@@ -7,7 +7,7 @@ import com.jodonghyeon.neighborfriend.domain.model.User;
 import com.jodonghyeon.neighborfriend.domain.repository.ParticipateRepository;
 import com.jodonghyeon.neighborfriend.domain.repository.PostRepository;
 import com.jodonghyeon.neighborfriend.domain.repository.UserRepository;
-import com.jodonghyeon.neighborfriend.domain.type.ParticipateStatus;
+import com.jodonghyeon.neighborfriend.domain.type.PromiseStatus;
 import com.jodonghyeon.neighborfriend.domain.type.PostStatus;
 import com.jodonghyeon.neighborfriend.exception.CustomException;
 import com.jodonghyeon.neighborfriend.exception.ErrorCode;
@@ -18,6 +18,7 @@ import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 @Service
 @Transactional
@@ -28,15 +29,17 @@ public class PromiseService {
     private final UserRepository userRepository;
     private final PostRepository postRepository;
 
-    public void applyPromise(String email, Long id) {
+    public void requestPromise(String email, Long id) {
 
         User user = getUser(email);
 
-        Post post = postRepository.findById(id).orElseThrow
+        Post post = postRepository.findByIdAndStatus(id, "RECRUITMENT_COMPLETE").orElseThrow
                 (() -> new CustomException(ErrorCode.NOT_FOUND_POST));
 
-        if (PostStatus.RECRUITMENT_COMPLETE.equals(post.getStatus())) {
-            throw new CustomException(ErrorCode.ALREADY_FINISHED_PROMISE);
+        // 게시글이 회원의 주소와 관련이 없을 경우
+        if (!post.getAddress().getAddress().equals(user.getFirstAddress().getAddress())
+                 && !post.getAddress().getAddress().equals(user.getSecondAddress().getAddress())) {
+            throw new CustomException(ErrorCode.NOT_YOUR_ADDRESS_POST);
         }
 
         promiseRepository.save(Promise.from(user, post));
@@ -48,22 +51,31 @@ public class PromiseService {
         Post post = postRepository.findByIdAndUserId(postId, user.getId())
                 .orElseThrow(() -> new CustomException(ErrorCode.NOT_PERMITTED_CONNECT));
 
-
-        List<Promise> byPostId = promiseRepository.findByPostId(post.getId());
-
-        List<User> users = new ArrayList<>();
-
-        for (int i = 0; i < byPostId.size(); i++) {
-            users.add(userRepository.findByEmail(byPostId.get(i).getUserEmail()).get());
+        if (!post.getAddress().getAddress().equals(user.getFirstAddress().getAddress())
+                && !post.getAddress().getAddress().equals(user.getSecondAddress().getAddress())) {
+            throw new CustomException(ErrorCode.NOT_YOUR_ADDRESS_POST);
         }
 
-        return users.stream()
-                .map(PromiseDto::from)
+        List<Promise> promiseUserList = promiseRepository.findByPostId(post.getId()).stream()
+                .filter(promise -> !promise.getStatus().equals(PromiseStatus.CANCEL))
                 .collect(Collectors.toList());
+
+        List<User> users = promiseUserList.stream()
+                .map(promise -> userRepository.findByEmail(promise.getUserEmail())
+                        .orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_USER)))
+                .collect(Collectors.toList());
+
+        List<PromiseDto> collect = IntStream.range(0, promiseUserList.size())
+                .mapToObj(i -> PromiseDto.fromUser(
+                        PromiseDto.fromPromiseEntity(promiseUserList.get(i)),
+                        users.get(i)))
+                .collect(Collectors.toList());
+
+        return collect;
 
     }
 
-    public void modifyPromiseStatus(String userEmail, String promiseEmail, Long postId, ParticipateStatus status) {
+    public void modifyPromiseStatus(String userEmail, String promiseEmail, Long postId, PromiseStatus status) {
         User user = getUser(userEmail);
 
         Promise promise = promiseRepository.findByUserEmailAndPostId(promiseEmail, postId).orElseThrow(

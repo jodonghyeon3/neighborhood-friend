@@ -9,6 +9,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Setter
 @Getter
@@ -19,7 +20,7 @@ public class UserDto {
     private String email;
     private String name;
     private String phone;
-    private LocalDate birth;
+    private LocalDateTime birth;
     private Long age;
     private Double star_rating;
     private Gender gender;

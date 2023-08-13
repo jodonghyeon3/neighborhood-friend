@@ -15,6 +15,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -45,6 +46,7 @@ public class PostService {
         );
 
         List<Post> posts = postRepository.findByAddress(address.getAddress());
+        Collections.reverse(posts);
 
         return posts.stream()
                 .filter(post -> !post.getStatus().equals(PostStatus.RECRUITMENT_COMPLETE))

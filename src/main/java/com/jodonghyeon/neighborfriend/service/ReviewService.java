@@ -9,7 +9,7 @@ import com.jodonghyeon.neighborfriend.domain.repository.ParticipateRepository;
 import com.jodonghyeon.neighborfriend.domain.repository.PostRepository;
 import com.jodonghyeon.neighborfriend.domain.repository.ReviewRepository;
 import com.jodonghyeon.neighborfriend.domain.repository.UserRepository;
-import com.jodonghyeon.neighborfriend.domain.type.ParticipateStatus;
+import com.jodonghyeon.neighborfriend.domain.type.PromiseStatus;
 import com.jodonghyeon.neighborfriend.domain.type.PostStatus;
 import com.jodonghyeon.neighborfriend.exception.CustomException;
 import com.jodonghyeon.neighborfriend.exception.ErrorCode;
@@ -43,7 +43,7 @@ public class ReviewService {
 
         List<Promise> promise = participateRepository.findByPostId(postId);
 
-        participateRepository.findByUserEmailAndUserNameAndStatus(user.getEmail(), user.getName(), ParticipateStatus.APPROVE).orElseThrow(
+        participateRepository.findByUserEmailAndUserNameAndStatus(user.getEmail(), user.getName(), PromiseStatus.APPROVE).orElseThrow(
                 () -> new CustomException(ErrorCode.NOT_PERMITTED_CONNECT)
         );
 

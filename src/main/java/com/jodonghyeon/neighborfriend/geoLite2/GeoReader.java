@@ -11,7 +11,6 @@ import java.net.InetAddress;
 
 @Component
 public class GeoReader {
-    //    private static final String DATABASE_CITY_PATH = "/Users/user/Desktop/GeoLite2-City_20230711/GeoLite2-City.mmdb";
     private static final String DATABASE_CITY_PATH = "src/main/resources/GeoLite2-City.mmdb";
     private DatabaseReader reader;
 

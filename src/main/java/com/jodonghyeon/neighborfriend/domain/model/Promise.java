@@ -1,6 +1,6 @@
 package com.jodonghyeon.neighborfriend.domain.model;
 
-import com.jodonghyeon.neighborfriend.domain.type.ParticipateStatus;
+import com.jodonghyeon.neighborfriend.domain.type.PromiseStatus;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -25,7 +25,7 @@ public class Promise extends BaseEntity {
     private String userEmail;
 
     @Enumerated(EnumType.STRING)
-    private ParticipateStatus status;
+    private PromiseStatus status;
 
     @ManyToOne
     @JoinColumn(name = "post_id")
@@ -36,12 +36,12 @@ public class Promise extends BaseEntity {
         return Promise.builder()
                 .userName(user.getName())
                 .userEmail(user.getEmail())
-                .status(ParticipateStatus.WAIT)
+                .status(PromiseStatus.WAIT)
                 .post(post)
                 .build();
     }
 
-    public static Promise changeStatus(Promise promise, ParticipateStatus status) {
+    public static Promise changeStatus(Promise promise, PromiseStatus status) {
         return promise.builder()
                 .status(status)
                 .build();

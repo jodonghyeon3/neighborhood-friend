@@ -2,7 +2,7 @@ package com.jodonghyeon.neighborfriend.service;
 
 import com.jodonghyeon.neighborfriend.domain.dto.CommentDto;
 import com.jodonghyeon.neighborfriend.domain.form.CommentsForm;
-import com.jodonghyeon.neighborfriend.domain.model.Comments;
+import com.jodonghyeon.neighborfriend.domain.model.Comment;
 import com.jodonghyeon.neighborfriend.domain.model.Post;
 import com.jodonghyeon.neighborfriend.domain.model.User;
 import com.jodonghyeon.neighborfriend.domain.repository.CommentsRepository;
@@ -36,7 +36,7 @@ public class CommentsService {
         if (PostStatus.RECRUITMENT_COMPLETE.equals(post.getStatus())) {
             throw new CustomException(ErrorCode.ALREADY_FINISHED_PROMISE);
         }
-        Comments from = Comments.from(form, user.getName(), post);
+        Comment from = Comment.from(form, user.getName(), post);
         commentsRepository.save(from);
     }
 
@@ -56,7 +56,6 @@ public class CommentsService {
         extracted(postId);
 
         return commentsRepository.findByPostId(postId)
-                .orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_COMMENT))
                 .stream().map(CommentDto::from).collect(Collectors.toList());
     }
 
@@ -69,15 +68,15 @@ public class CommentsService {
 
         extracted(postId);
 
-        Comments comments = commentsRepository.findById(commentId).orElseThrow(
+        Comment comment = commentsRepository.findById(commentId).orElseThrow(
                 () -> new CustomException(ErrorCode.NOT_FOUND_COMMENT)
         );
 
-        if (comments.getUserEmail().equals(email)) {
+        if (comment.getUserEmail().equals(email)) {
             throw new CustomException(ErrorCode.NOT_PERMITTED_CONNECT);
         }
 
-        Comments.update(form);
+        Comment.update(form);
     }
 
     public void removeComment(String email, Long commentId, Long postId) {
@@ -85,14 +84,14 @@ public class CommentsService {
 
         extracted(postId);
 
-        Comments comments = commentsRepository.findById(commentId).orElseThrow(
+        Comment comment = commentsRepository.findById(commentId).orElseThrow(
                 () -> new CustomException(ErrorCode.NOT_FOUND_COMMENT)
         );
 
-        if (!(user.getEmail().equals(comments.getUserEmail()) && user.getName().equals(user.getName()))) {
+        if (!(user.getEmail().equals(comment.getUserEmail()) && user.getName().equals(user.getName()))) {
             throw new CustomException(ErrorCode.NOT_PERMITTED_CONNECT);
         }
 
-        commentsRepository.delete(comments);
+        commentsRepository.delete(comment);
     }
 }
