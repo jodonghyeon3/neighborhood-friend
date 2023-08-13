@@ -53,12 +53,12 @@ public class ReviewService {
         Double rate = postsUser.getRate();
 
 
-        if (rate.equals(0.0)) {
+        if (rate.equals(0L)) {
             postsUser.setRate(form.getRating());
         } else {
             Long ratePeople = postsUser.getRatePeople();
             postsUser.setRate(((rate * ratePeople) + form.getRating()) / (ratePeople + 1));
-
+            postsUser.setRatePeople(ratePeople + 1);
         }
     }
 }

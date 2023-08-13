@@ -32,25 +32,25 @@ public class PostController {
         return ResponseEntity.ok(postService.getListAddressPost(authentication.getName(), type));
     }
 
-    @PutMapping("/status")
+    @PutMapping("/{postId}/status")
     public ResponseEntity postClose(Authentication authentication,
-                                    @RequestParam(name = "postId") Long postId) {
+                                    @PathVariable(name = "postId") Long postId) {
         postService.modifyPostStatus(postId, authentication.getName());
         return ResponseEntity.ok().build();
     }
 
-    @PutMapping("{post}")
+    @PutMapping("{postId}")
     public ResponseEntity postModify(Authentication authentication,
-                                     @PathVariable(name = "post") Long postId,
+                                     @PathVariable(name = "postId") Long postId,
                                      @RequestBody PostForm form) {
 
         postService.modifyPost(authentication.getName(), postId, form);
         return ResponseEntity.ok().build();
     }
 
-    @DeleteMapping("{post}")
+    @DeleteMapping("{postId}")
     public ResponseEntity postRemove(Authentication authentication,
-                                     @PathVariable(name = "post") Long postId) {
+                                     @PathVariable(name = "postId") Long postId) {
 
         postService.removePost(authentication.getName(), postId);
         return ResponseEntity.ok().build();

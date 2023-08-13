@@ -8,6 +8,7 @@ import lombok.Getter;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotEmpty;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Getter
 @Builder
@@ -23,7 +24,7 @@ public class SignUpForm {
     private String password;
 
     @NotEmpty
-    private LocalDate birth;
+    private LocalDateTime birth;
 
     @NotEmpty
     @Min(9)

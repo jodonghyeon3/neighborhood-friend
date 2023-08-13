@@ -1,6 +1,6 @@
 package com.jodonghyeon.neighborfriend.service;
 
-import com.jodonghyeon.neighborfriend.domain.dto.CommentsDTO;
+import com.jodonghyeon.neighborfriend.domain.dto.CommentDto;
 import com.jodonghyeon.neighborfriend.domain.form.CommentsForm;
 import com.jodonghyeon.neighborfriend.domain.model.Comments;
 import com.jodonghyeon.neighborfriend.domain.model.Post;
@@ -31,8 +31,7 @@ public class CommentsService {
     public void addComment(Long postId, String email, CommentsForm form) {
         User user = getUser(email);
 
-        Post post = postRepository.findById(postId)
-                .orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_POST));
+        Post post = getPost(postId);
 
         if (PostStatus.RECRUITMENT_COMPLETE.equals(post.getStatus())) {
             throw new CustomException(ErrorCode.ALREADY_FINISHED_PROMISE);
@@ -41,24 +40,28 @@ public class CommentsService {
         commentsRepository.save(from);
     }
 
+    private Post getPost(Long postId) {
+        return postRepository.findById(postId)
+                .orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_POST));
+    }
+
     private User getUser(String email) {
         return userRepository.findByEmail(email)
                 .orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_USER));
     }
 
-    public List<CommentsDTO> getListComment(String email, Long postId) {
+    public List<CommentDto> getListComment(String email, Long postId) {
         getUser(email);
 
         extracted(postId);
 
         return commentsRepository.findByPostId(postId)
                 .orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_COMMENT))
-                .stream().map(CommentsDTO::from).collect(Collectors.toList());
+                .stream().map(CommentDto::from).collect(Collectors.toList());
     }
 
     private void extracted(Long postId) {
-        postRepository.findById(postId)
-                .orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_POST));
+        getPost(postId);
     }
 
     public void modifyComment(Long commentId, String email, String form, Long postId) {

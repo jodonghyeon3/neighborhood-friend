@@ -7,7 +7,7 @@ import lombok.Getter;
 
 @Getter
 @Builder
-public class PromiseDTO {
+public class PromiseDto {
 
     private String userEmail;
 
@@ -22,8 +22,8 @@ public class PromiseDTO {
 //    private ParticipateStatus status;
     // 상태도 추가해야됨
 
-    public static PromiseDTO from(User user) {
-        return PromiseDTO.builder()
+    public static PromiseDto from(User user) {
+        return PromiseDto.builder()
                 .userEmail(user.getEmail())
                 .userName(user.getName())
                 .age(user.getAge())

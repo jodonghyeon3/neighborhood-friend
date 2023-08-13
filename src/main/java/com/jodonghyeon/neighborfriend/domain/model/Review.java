@@ -7,10 +7,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.envers.AuditOverride;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Entity
 @Getter
@@ -30,6 +27,10 @@ public class Review extends BaseEntity {
     private Double ratings;
 
     private String details;
+
+    @ManyToOne
+    @JoinColumn(name = "post_id")
+    private Post post;
 
 
     public static Review from(ReviewForm form, String userName, String userEmail) {
