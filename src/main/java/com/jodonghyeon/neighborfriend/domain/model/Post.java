@@ -23,7 +23,6 @@ public class Post extends BaseEntity {
     @Column(name = "post_id")
     private Long id;
 
-
     private String title;
     private String detail;
     private String place;

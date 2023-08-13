@@ -1,6 +1,6 @@
 package com.jodonghyeon.neighborfriend.service;
 
-import com.jodonghyeon.neighborfriend.domain.dto.PromiseDTO;
+import com.jodonghyeon.neighborfriend.domain.dto.PromiseDto;
 import com.jodonghyeon.neighborfriend.domain.model.Promise;
 import com.jodonghyeon.neighborfriend.domain.model.Post;
 import com.jodonghyeon.neighborfriend.domain.model.User;
@@ -42,7 +42,7 @@ public class PromiseService {
         promiseRepository.save(Promise.from(user, post));
     }
 
-    public List<PromiseDTO> getPromiseListUser(String email, Long postId) {
+    public List<PromiseDto> getPromiseListUser(String email, Long postId) {
         User user = getUser(email);
 
         Post post = postRepository.findByIdAndUserId(postId, user.getId())
@@ -58,12 +58,12 @@ public class PromiseService {
         }
 
         return users.stream()
-                .map(PromiseDTO::from)
+                .map(PromiseDto::from)
                 .collect(Collectors.toList());
 
     }
 
-    public void modifyPromise(String userEmail, String promiseEmail, Long postId, ParticipateStatus status) {
+    public void modifyPromiseStatus(String userEmail, String promiseEmail, Long postId, ParticipateStatus status) {
         User user = getUser(userEmail);
 
         Promise promise = promiseRepository.findByUserEmailAndPostId(promiseEmail, postId).orElseThrow(

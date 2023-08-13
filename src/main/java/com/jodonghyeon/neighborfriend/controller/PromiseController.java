@@ -1,6 +1,6 @@
 package com.jodonghyeon.neighborfriend.controller;
 
-import com.jodonghyeon.neighborfriend.domain.dto.PromiseDTO;
+import com.jodonghyeon.neighborfriend.domain.dto.PromiseDto;
 import com.jodonghyeon.neighborfriend.domain.type.ParticipateStatus;
 import com.jodonghyeon.neighborfriend.service.PromiseService;
 import lombok.RequiredArgsConstructor;
@@ -12,12 +12,12 @@ import java.util.List;
 
 @RequiredArgsConstructor
 @RestController
-@RequestMapping("/post")
+@RequestMapping("/post/{postId}/promise")
 public class PromiseController {
 
     private final PromiseService promiseService;
 
-    @PostMapping("{postId}/promise")
+    @PostMapping("")
     public ResponseEntity promiseApply(Authentication authentication,
                                        @PathVariable(name = "postId") Long postId) {
 
@@ -25,20 +25,20 @@ public class PromiseController {
         return ResponseEntity.ok().build();
     }
 
-    @GetMapping("{postId}/promise")
-    public ResponseEntity<List<PromiseDTO>> promiseUserListGet(Authentication authentication,
+    @GetMapping("")
+    public ResponseEntity<List<PromiseDto>> promiseUserListGet(Authentication authentication,
                                                                @PathVariable(name = "postId") Long postId) {
 
         return ResponseEntity.ok(promiseService.getPromiseListUser(authentication.getName(), postId));
     }
 
-    @PutMapping("/{postId}/status")
-    public ResponseEntity promiseModify(Authentication authentication,
-                                        @PathVariable(name = "postId") Long postId,
-                                        @RequestParam(name = "email") String userEmail,
-                                        ParticipateStatus status) {
+    @PutMapping("/status")
+    public ResponseEntity promiseStatusModify(Authentication authentication,
+                                              @PathVariable(name = "postId") Long postId,
+                                              @RequestParam(name = "email") String userEmail,
+                                              ParticipateStatus status) {
 
-        promiseService.modifyPromise(authentication.getName(), userEmail, postId, status);
+        promiseService.modifyPromiseStatus(authentication.getName(), userEmail, postId, status);
 
         return ResponseEntity.ok().build();
     }

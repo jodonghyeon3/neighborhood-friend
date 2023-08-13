@@ -7,6 +7,7 @@ import org.hibernate.envers.AuditOverride;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Locale;
 
 
@@ -28,7 +29,7 @@ public class User extends BaseEntity {
     private String password;
     private String name;
     private String phone;
-    private LocalDate birth;
+    private LocalDateTime birth;
     private Long age;
     private Double rate;
     private Long ratePeople;
@@ -63,6 +64,7 @@ public class User extends BaseEntity {
                 .age(form.getAge())
                 .gender(form.getGender())
                 .rate(0.0)
+                .ratePeople(0L)
                 .build();
     }
 

@@ -24,13 +24,16 @@ import java.net.UnknownHostException;
 import java.nio.charset.Charset;
 
 @Service
-@RequiredArgsConstructor
 @PropertySource("classpath:config.properties")
 public class GeoService {
-    @Value("${secretKey}")
-    private String kakaoKey;
 
     private final GeoReader geoReader;
+    private final String kakaoKey;
+
+    public GeoService(@Value("${secret}") String kakaoKey, GeoReader geoReader) {
+        this.kakaoKey = kakaoKey;
+        this.geoReader = geoReader;
+    }
 
     private InetAddress getIpAddress() {
         HttpServletRequest req = ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes()).getRequest();

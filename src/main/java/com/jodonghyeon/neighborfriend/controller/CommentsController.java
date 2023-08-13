@@ -1,6 +1,6 @@
 package com.jodonghyeon.neighborfriend.controller;
 
-import com.jodonghyeon.neighborfriend.domain.dto.CommentsDTO;
+import com.jodonghyeon.neighborfriend.domain.dto.CommentDto;
 import com.jodonghyeon.neighborfriend.domain.form.CommentsForm;
 import com.jodonghyeon.neighborfriend.service.CommentsService;
 import lombok.RequiredArgsConstructor;
@@ -12,37 +12,37 @@ import java.util.List;
 
 @RequiredArgsConstructor
 @RestController
-@RequestMapping("/post/{post}/comment")
+@RequestMapping("/post/{postId}/comment")
 public class CommentsController {
     private final CommentsService commentsService;
 
     @PostMapping("")
     public ResponseEntity commentAdd(Authentication authentication,
-                                     @PathVariable(name = "post") Long postId,
+                                     @PathVariable(name = "postId") Long postId,
                                      @RequestBody CommentsForm form) {
         commentsService.addComment(postId, authentication.getName(), form);
         return ResponseEntity.ok().build();
     }
 
     @GetMapping("")
-    public ResponseEntity<List<CommentsDTO>> commentListGet(Authentication authentication,
-                                                            @PathVariable(name = "post") Long postId) {
+    public ResponseEntity<List<CommentDto>> commentListGet(Authentication authentication,
+                                                           @PathVariable(name = "postId") Long postId) {
         return ResponseEntity.ok(commentsService.getListComment(authentication.getName(), postId));
     }
 
-    @PutMapping("/{comment}")
+    @PutMapping("/{commentId}")
     public ResponseEntity commentModify(Authentication authentication,
-                                        @PathVariable(name = "comment") Long commentId,
+                                        @PathVariable(name = "commentId") Long commentId,
                                         @RequestBody String form,
-                                        @PathVariable(name = "post") Long postId) {
+                                        @PathVariable(name = "postId") Long postId) {
         commentsService.modifyComment(commentId, authentication.getName(), form, postId);
         return ResponseEntity.ok().build();
     }
 
-    @DeleteMapping("/{comment}")
+    @DeleteMapping("/{commentId}")
     public ResponseEntity commentRemove(Authentication authentication,
-                                        @PathVariable(name = "comment") Long commentId,
-                                        @PathVariable(name = "post") Long postId) {
+                                        @PathVariable(name = "commentId") Long commentId,
+                                        @PathVariable(name = "postId") Long postId) {
         commentsService.removeComment(authentication.getName(), commentId, postId);
         return ResponseEntity.ok().build();
     }
