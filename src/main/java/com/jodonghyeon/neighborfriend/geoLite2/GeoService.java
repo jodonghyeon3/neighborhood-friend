@@ -73,8 +73,7 @@ public class GeoService {
     }
 
     public Address findCity() throws UnknownHostException {
-//        InetAddress ipAddress = getIpAddress();
-        InetAddress ipAddress = InetAddress.getByName("221.160.154.121");
+        InetAddress ipAddress = getIpAddress();
         CityResponse response = geoReader.city(ipAddress);
 
         Subdivision subdivision = response.getMostSpecificSubdivision();

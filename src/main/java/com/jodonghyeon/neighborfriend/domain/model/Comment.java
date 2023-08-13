@@ -15,7 +15,7 @@ import javax.persistence.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @AuditOverride(forClass = BaseEntity.class)
-public class Comments extends BaseEntity {
+public class Comment extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -31,16 +31,16 @@ public class Comments extends BaseEntity {
     @JoinColumn(name = "post_id")
     private Post post;
 
-    public static Comments from(CommentsForm form, String name, Post post) {
-        return Comments.builder()
+    public static Comment from(CommentsForm form, String name, Post post) {
+        return Comment.builder()
                 .comment(form.getComment())
                 .userName(name)
                 .post(post)
                 .build();
     }
 
-    public static Comments update(String form) {
-        return Comments.builder()
+    public static Comment update(String form) {
+        return Comment.builder()
                 .comment(form)
                 .build();
     }
