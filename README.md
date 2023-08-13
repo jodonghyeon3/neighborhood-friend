@@ -27,7 +27,8 @@ Spring, Jpa, Spring Security, Jwt, Mysql, Docker
 [회원]
 - [O] 회원 가입
 - [O] 로그인 후 토큰 발급
-- [O] 접속 IP 주소를 이용해 현재 위치 가져오기
+- [O] 접속 IP 주소를 이용해 GeoLite를 통해 현재 주소의 좌표를 통해 가져오기
+- [O] 카카오 api를 이용해 좌표를 상세주소로 변환
 
 [게시글]
 - [O] 약속 게시물 등록
