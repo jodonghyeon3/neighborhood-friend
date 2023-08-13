@@ -25,7 +25,8 @@ public class SecurityConfig {
         return httpSecurity
                 .httpBasic().disable()
                 .csrf().disable()
-                .cors().and()
+                .cors().disable()
+//                .cors().and() 찾아보기로
                 .authorizeRequests()
                 .antMatchers("/user/**").permitAll()
                 .and()

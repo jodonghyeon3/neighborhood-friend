@@ -1,7 +1,7 @@
 package com.jodonghyeon.neighborfriend.service;
 
 import com.jodonghyeon.neighborfriend.domain.form.ReviewForm;
-import com.jodonghyeon.neighborfriend.domain.model.Participate;
+import com.jodonghyeon.neighborfriend.domain.model.Promise;
 import com.jodonghyeon.neighborfriend.domain.model.Post;
 import com.jodonghyeon.neighborfriend.domain.model.Review;
 import com.jodonghyeon.neighborfriend.domain.model.User;
@@ -41,9 +41,7 @@ public class ReviewService {
             throw new CustomException(ErrorCode.NOT_FINISHED_PROMISE);
         }
 
-        List<Participate> participates = participateRepository.findByPostId(postId).orElseThrow(
-                () -> new CustomException(ErrorCode.NOT_FOUND_PROMISE)
-        );
+        List<Promise> promise = participateRepository.findByPostId(postId);
 
         participateRepository.findByUserEmailAndUserNameAndStatus(user.getEmail(), user.getName(), ParticipateStatus.APPROVE).orElseThrow(
                 () -> new CustomException(ErrorCode.NOT_PERMITTED_CONNECT)
