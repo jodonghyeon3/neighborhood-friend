@@ -14,7 +14,6 @@ import java.util.List;
 @RestController
 @RequestMapping("/post/{postId}/promise")
 public class PromiseController {
-
     private final PromiseService promiseService;
 
     @PostMapping("")
