@@ -45,3 +45,13 @@ dependencies {
 tasks.named('test') {
 	useJUnitPlatform()
 }
+
+
+bootJar {
+	mainClass = 'com.jodonghyeon.neighborfriend.NeighborFriendApplication'
+}
+
+bootRun {
+	String activeProfile = System.properties['spring.prfiles.active']
+	systemProperty "spring.profiles.active", activeProfile
+}
