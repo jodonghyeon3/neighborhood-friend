@@ -24,7 +24,6 @@ import java.net.UnknownHostException;
 import java.nio.charset.Charset;
 
 @Service
-@PropertySource("classpath:config.properties")
 public class GeoService {
 
     private final GeoReader geoReader;
