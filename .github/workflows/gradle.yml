@@ -64,7 +64,7 @@ jobs:
         aws-region: ${{ secrets.AWS_REGION }}
 
     - name: Upload to S3
-      run: aws s3 cp --region ${{ secrets.AWS_REGION }} ./neighbor-friend.zip s3://<만들어 놓은 버킷 이름>/neighbor-friend.zip
+      run: aws s3 cp --region ${{ secrets.AWS_REGION }} ./neighbor-friend.zip s3://neighbor-friend-bucket/neighbor-friend.zip
     
     - name: Deploy
       env:
