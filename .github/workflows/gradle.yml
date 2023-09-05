@@ -65,7 +65,7 @@ jobs:
         aws-region: ${{ secrets.AWS_REGION }}
 
 	#3
-	# 만들어 놓은 S3에 해당 zip 파일 저장
+# 만들어 놓은 S3에 해당 zip 파일 저장
     - name: Upload to S3
       run: aws s3 cp --region ${{ secrets.AWS_REGION }} ./neighbor-friend.zip s3://<만들어 놓은 버킷 이름>/neighbor-friend.zip
     
