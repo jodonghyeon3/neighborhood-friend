@@ -9,7 +9,7 @@ on:
 # 해당 yml 내에서 사용할 key - value
 env:
   S3_BUCKET_NAME: jodonghyeon3-bucket
-  PROJECT_NAME: neighbor-friend
+  PROJECT_NAME: jodonghyeon3-project
 
 # workflow는 한개 이상의 job을 가지며, 각 job은 여러 step에 따라 단계를 나눌 수 있습니다.
 jobs:
@@ -58,9 +58,9 @@ jobs:
       - name: Deploy
         run: |
           aws deploy create-deployment \
-          --application-name neighbor-friend-project \
+          --application-name jodonghyeon3-project \
           --deployment-config-name CodeDeployDefault.AllAtOnce \
           --deployment-group-name jodonghyeon3-prod \
           --file-exists-behavior OVERWRITE \
-          --s3-location bucket=jodonghyeon3-bucket,bundleType=zip,key=neighbor-friend/$GITHUB_SHA.zip \
+          --s3-location bucket=jodonghyeon3-bucket,bundleType=zip,key=jodonghyeon3/$GITHUB_SHA.zip \
           --region ap-northeast-2 \
