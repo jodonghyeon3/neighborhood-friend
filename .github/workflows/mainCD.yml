@@ -62,5 +62,5 @@ jobs:
           --deployment-config-name CodeDeployDefault.AllAtOnce \
           --deployment-group-name jodonghyeon3-prod \
           --file-exists-behavior OVERWRITE \
-          --s3-location bucket=jodonghyeon3-bucket,bundleType=zip,key=jodonghyeon3/$GITHUB_SHA.zip \
+          --s3-location bucket=jodonghyeon3-bucket,bundleType=zip,key=jodonghyeon3-project/$GITHUB_SHA.zip \
           --region ap-northeast-2 \
