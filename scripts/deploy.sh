@@ -1,6 +1,6 @@
 #!/bin/bash
 BUILD_JAR=$(ls /home/ec2-user/action/build/libs/neighbor-friend.jar)
-JAR_NAME=$(basename $BUILD_JAR)
+JAR_NAME=neighbor-friend.jar
 echo "> build 파일명: $JAR_NAME" >> /home/ec2-user/action/deploy.log
 
 echo "> build 파일 복사" >> /home/ec2-user/action/deploy.log
