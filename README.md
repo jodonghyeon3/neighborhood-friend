@@ -9,6 +9,12 @@
 ### 사용기술
 Spring, Jpa, Spring Security, Jwt, Mysql, Docker, AWS, AWS CodeDeploy, AWS S3
 
+---
+
+### API Document
+http://3.34.133.145:8080/swagger-ui/index.html#/
+---
+
 ### CI/CD
 <img width="783" alt="image" src="https://github.com/jodonghyeon3/neighborhood-friend/assets/117457834/79b93fab-fdeb-404b-9376-186b1f9d7045">
 
