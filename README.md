@@ -6,13 +6,20 @@
 
 ---
 
-### 사용기술
-Spring, Jpa, Spring Security, Jwt, Mysql, Docker, AWS, AWS CodeDeploy, AWS S3
+## 프로젝트 사용 기술 스택
+<img src="https://img.shields.io/badge/JAVA-007396?style=for-the-badge&logo=Java&logoColor=white">&nbsp;
+<img src="https://img.shields.io/badge/Spring-6DB33F?style=for-the-badge&logo=Spring&logoColor=white">
+<img src="https://img.shields.io/badge/JPA-green?style=for-the-badge&logo=JPA&logoColor=white">
+<img src="https://img.shields.io/badge/mariadb-003545?style=for-the-badge&logo=mariadb&logoColor=white">
+<img src="https://img.shields.io/badge/aws_EC2-FF9900?style=for-the-badge&logo=Amazon EC2&logoColor=white">
+<img src="https://img.shields.io/badge/aws_S3-569A31?style=for-the-badge&logo=Amazon S3&logoColor=white">
+<br>
 
 ---
 
 ### API Document
 http://3.34.133.145:8080/swagger-ui/index.html#/
+
 ---
 
 ### CI/CD
