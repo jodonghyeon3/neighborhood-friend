@@ -1,5 +1,8 @@
 #!/bin/bash
 /home/ec2-user/action/gradlew build
+
+wait
+
 BUILD_JAR=$(ls /home/ec2-user/action/build/libs/neighbor-friend.jar)
 JAR_NAME=neighbor-friend.jar
 echo "> build 파일명: $JAR_NAME" >> /home/ec2-user/action/deploy.log
