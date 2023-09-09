@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 PROJECT_ROOT="/home/ec2-user/app/deploy"
-JAR_FILE="$PROJECT_ROOT/build/libs/neighbor.jar"
+JAR_FILE="$PROJECT_ROOT/build/libs/neighbor-friend.jar"
 
 DEPLOY_LOG="$PROJECT_ROOT/deploy.log"
 
