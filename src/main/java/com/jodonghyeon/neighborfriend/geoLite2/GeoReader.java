@@ -11,7 +11,7 @@ import java.net.InetAddress;
 
 @Component
 public class GeoReader {
-    private static final String DATABASE_CITY_PATH = "/home/ec2-user/action/src/main/resources/GeoLite2-City.mmdb";
+    private static final String DATABASE_CITY_PATH = "/home/ec2-user/app/deploy/src/main/resources/GeoLite2-City.mmdb";
     private DatabaseReader reader;
 
     public GeoReader() throws IOException {
