@@ -6,14 +6,13 @@ import com.jodonghyeon.neighborfriend.domain.type.Gender;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
-import lombok.Setter;
+import lombok.NoArgsConstructor;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 
-@Setter
 @Getter
 @AllArgsConstructor
+@NoArgsConstructor
 @Builder
 public class UserDto {
 

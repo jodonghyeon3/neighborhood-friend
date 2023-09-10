@@ -11,8 +11,6 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Getter
-@Builder
-@AllArgsConstructor
 public class SignUpForm {
     @NotEmpty
     private String email;

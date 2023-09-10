@@ -1,14 +1,11 @@
 package com.jodonghyeon.neighborfriend.domain.model;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.Embeddable;
 
 @Embeddable
-@Data
+@Getter
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor

@@ -20,7 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class ReviewController {
     private final ReviewService reviewService;
 
-    @PostMapping()
+    @PostMapping
     @ApiOperation(value = "리뷰 작성", notes = "사용자가 게시글에 대한 리뷰를 작성합니다.")
     public ResponseEntity reviewAdd(Authentication authentication,
                                     @PathVariable(name = "postId") Long postId,

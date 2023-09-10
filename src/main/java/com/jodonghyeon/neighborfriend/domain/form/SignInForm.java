@@ -7,8 +7,6 @@ import lombok.Getter;
 import javax.validation.constraints.NotEmpty;
 
 @Getter
-@AllArgsConstructor
-@Builder
 public class SignInForm {
 
     @NotEmpty

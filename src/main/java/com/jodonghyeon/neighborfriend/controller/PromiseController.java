@@ -19,7 +19,7 @@ import java.util.List;
 public class PromiseController {
     private final PromiseService promiseService;
 
-    @PostMapping("")
+    @PostMapping
     @ApiOperation(value = "약속 요청", notes = "사용자가 게시글에 대한 약속을 요청합니다.")
     public ResponseEntity promiseRequest(Authentication authentication,
                                          @PathVariable(name = "postId") Long postId) {
@@ -28,7 +28,7 @@ public class PromiseController {
         return ResponseEntity.ok().build();
     }
 
-    @GetMapping("")
+    @GetMapping
     @ApiOperation(value = "약속 요청 유저 목록", notes = "게시글 작성자가 약속 요청한 유저들을 조회합니다.")
     public ResponseEntity<List<PromiseDto>> promiseUserListGet(Authentication authentication,
                                                                @PathVariable(name = "postId") Long postId) {
