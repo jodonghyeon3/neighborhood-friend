@@ -2,11 +2,11 @@
 
 ### 서비스 소개
 이웃친구는 가까운 거리에 살고 비슷한 라이프스타일을 공유하는 사람들을 연결하기 위해 고안된 서비스입니다. \
-자신이 설정한 동네 내에서 개인 간의 유대관계를 맺는 것을 목표로 합니다.
+다양한 활동을 통해 이웃친구를 만들 수 있습니다.
 
 ---
 
-## 프로젝트 사용 기술 스택
+### 프로젝트 사용 기술 스택
 <img src="https://img.shields.io/badge/JAVA-007396?style=for-the-badge&logo=Java&logoColor=white">&nbsp;
 <img src="https://img.shields.io/badge/Spring-6DB33F?style=for-the-badge&logo=Spring&logoColor=white">
 <img src="https://img.shields.io/badge/JPA-green?style=for-the-badge&logo=JPA&logoColor=white">
