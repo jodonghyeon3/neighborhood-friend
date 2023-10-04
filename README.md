@@ -6,7 +6,7 @@
 
 ---
 
-### 프로젝트 사용 기술 스택
+### 프로젝트 사용 기술 스택 & 라이브러리 사용 이유
 <img src="https://img.shields.io/badge/JAVA-007396?style=for-the-badge&logo=Java&logoColor=white">&nbsp;
 <img src="https://img.shields.io/badge/Spring-6DB33F?style=for-the-badge&logo=Spring&logoColor=white">
 <img src="https://img.shields.io/badge/JPA-green?style=for-the-badge&logo=JPA&logoColor=white">
@@ -15,7 +15,37 @@
 <img src="https://img.shields.io/badge/aws_S3-569A31?style=for-the-badge&logo=Amazon S3&logoColor=white">
 <br>
 
+| **기술 스택** | **사용이유** |
+| :--- | :--- |
+| GitHub Actions / CodeDeploy / Amazon S3 | 유저의 측면에서 서버가 중단되어 서비스를 이용하지 못하는 상황을 막고자 GitHub Action으로 빌드를 진행하고 빌드한 파일을 S3에 업로드한 후 Codedeploy에서 사전에 작성된 script를 기반으로 자동 배포를 할 수 있도록 구현 |
+| JWT | - 권한 부여 :  사용자가 로그인하면 이후의 각 요청에는 JWT가 포함되어 사용자가 해당 토큰으로 허용된 경로, 서비스 및 리소스에 액세스할 수 있음 <br> - 정보 교환 :  JSON 웹 토큰은 당사자 간에 정보를 안전하게 전송하는 좋은 방법 JWT는 보낸 사람이 자신이 누구인지 확인할 수 있음 또한 헤더와 페이로드를 사용하여 서명을 계산하므로 내용이 조작되지 않았는지 확인할 수도 있음 
+
+<br>
+
 ---
+
+## Project Sturucture
+```bash
+src
+├── config // 인증/인가
+│   └──  EncoderConfig
+│   └──  JwtFilter
+│   └──  SecurityConfig
+├── util // jwt토큰 
+├── controller
+├── domain
+│   └── common
+│   └── dto
+│   └── form
+│   └── model
+│   └── repository
+│   └── type
+├── exception // 커스텀 예외
+├── geoLite // 외부api
+├── service // 상품 도메인
+```
+---
+
 
 ### API Document
 http://3.34.133.145:8080/swagger-ui/index.html#/
